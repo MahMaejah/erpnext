@@ -1,0 +1,119 @@
+{
+ "actions": [],
+ "creation": "2021-09-01 12:13:52.299773",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "department",
+  "total_number_of_classes",
+  "total_number_of_periods",
+  "available_number_of_instructors",
+  "required_number_of_instructors",
+  "excess_intructors",
+  "short_fall"
+ ],
+ "fields": [
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "department",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Department",
+   "options": "School Department",
+   "reqd": 1
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "total_number_of_classes",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Total Number Of Classes"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "total_number_of_periods",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Total Number Of Periods"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "available_number_of_instructors",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Available Number of Instructors"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "required_number_of_instructors",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Required Number of Instructors"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "excess_intructors",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Excess Intructors"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "short_fall",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Short Fall"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2021-09-01 12:13:52.299773",
+ "modified_by": "Administrator",
+ "module": "Education",
+ "name": "Master Department",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Head Master",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Deputy Head Master",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

@@ -1,0 +1,77 @@
+{
+ "actions": [],
+ "creation": "2021-08-24 00:27:46.240763",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "total_number_of_classes",
+  "total_number_of_periods",
+  "available_number_of_instructors",
+  "required_number_of_instructors",
+  "excess_intructors",
+  "short_fall"
+ ],
+ "fields": [
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "total_number_of_classes",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Total NO. of Classes"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "total_number_of_periods",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Total NO. of Periods"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "available_number_of_instructors",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Available Techers"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "required_number_of_instructors",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Required Teachers"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "excess_intructors",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Excess Teachers"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "short_fall",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Short Fall"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2021-09-29 22:56:01.707956",
+ "modified_by": "Administrator",
+ "module": "Education",
+ "name": "PeriodsTB",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

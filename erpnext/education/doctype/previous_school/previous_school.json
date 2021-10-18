@@ -1,0 +1,53 @@
+{
+ "actions": [],
+ "creation": "2021-08-31 23:03:56.165991",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "school_name",
+  "school_location",
+  "alumni_name"
+ ],
+ "fields": [
+  {
+   "fieldname": "school_name",
+   "fieldtype": "Data",
+   "label": "School Name"
+  },
+  {
+   "fieldname": "school_location",
+   "fieldtype": "Data",
+   "label": "School Location"
+  },
+  {
+   "fieldname": "alumni_name",
+   "fieldtype": "Data",
+   "label": "Alumni Name"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2021-08-31 23:03:56.165991",
+ "modified_by": "Administrator",
+ "module": "Education",
+ "name": "Previous School",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

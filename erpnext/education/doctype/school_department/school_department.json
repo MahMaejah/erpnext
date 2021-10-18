@@ -1,0 +1,126 @@
+{
+ "actions": [],
+ "autoname": "field:department_name",
+ "creation": "2021-08-05 17:40:03.204442",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "department_name",
+  "head_of_department_hod",
+  "department_profile",
+  "department_minutes",
+  "activities_section",
+  "activity_list",
+  "department_items_section",
+  "department_items",
+  "total",
+  "members_section",
+  "department_members",
+  "table_16",
+  "short_fall"
+ ],
+ "fields": [
+  {
+   "fieldname": "department_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Department Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fetch_from": "instructor_name",
+   "fieldname": "head_of_department_hod",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Head of Department (H.O.D)",
+   "options": "Instructor",
+   "reqd": 1
+  },
+  {
+   "fieldname": "members_section",
+   "fieldtype": "Section Break",
+   "label": "Members"
+  },
+  {
+   "fieldname": "department_members",
+   "fieldtype": "Table",
+   "label": "Department Members",
+   "options": "List of Instructors"
+  },
+  {
+   "fieldname": "department_items_section",
+   "fieldtype": "Section Break",
+   "label": "Department Items"
+  },
+  {
+   "fieldname": "total",
+   "fieldtype": "Int",
+   "label": "Total"
+  },
+  {
+   "fieldname": "department_items",
+   "fieldtype": "Table",
+   "label": "Department Items",
+   "options": "Department School Item"
+  },
+  {
+   "fieldname": "short_fall",
+   "fieldtype": "Int",
+   "label": "Short Fall"
+  },
+  {
+   "fieldname": "table_16",
+   "fieldtype": "Table",
+   "options": "PeriodsTB"
+  },
+  {
+   "fieldname": "department_profile",
+   "fieldtype": "Attach",
+   "label": "Departmental Profile"
+  },
+  {
+   "fieldname": "department_minutes",
+   "fieldtype": "Table",
+   "label": "Departmental Minutes",
+   "options": "MinutesTB"
+  },
+  {
+   "fieldname": "activities_section",
+   "fieldtype": "Section Break",
+   "label": "Schedule of Term Activities"
+  },
+  {
+   "fieldname": "activity_list",
+   "fieldtype": "Table",
+   "label": "Activity List",
+   "options": "School Activity"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2021-10-02 19:01:03.361036",
+ "modified_by": "Administrator",
+ "module": "Education",
+ "name": "School Department",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

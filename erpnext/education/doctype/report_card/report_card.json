@@ -1,0 +1,141 @@
+{
+ "actions": [],
+ "autoname": "format:{student}-{grade}-{class_name}-{year}-{term}",
+ "creation": "2021-08-23 21:17:52.472197",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "student",
+  "student_name",
+  "year",
+  "term",
+  "grade",
+  "class_name",
+  "attendance",
+  "out_of_attendance",
+  "amount_unpaid",
+  "subjects",
+  "subjects_recorded",
+  "points_in_best_6",
+  "position_in_class",
+  "out_of_position",
+  "class_teacher_comment",
+  "head_teacher_comment"
+ ],
+ "fields": [
+  {
+   "fieldname": "student",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Student",
+   "options": "Student",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "student.title",
+   "fieldname": "student_name",
+   "fieldtype": "Data",
+   "in_global_search": 1,
+   "in_list_view": 1,
+   "label": "Student Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "subjects",
+   "fieldtype": "Table",
+   "label": "Subjects",
+   "options": "Report Card Subject"
+  },
+  {
+   "fieldname": "year",
+   "fieldtype": "Data",
+   "label": "Year"
+  },
+  {
+   "fieldname": "term",
+   "fieldtype": "Data",
+   "label": "Term"
+  },
+  {
+   "fieldname": "grade",
+   "fieldtype": "Data",
+   "label": "Grade"
+  },
+  {
+   "fieldname": "class_name",
+   "fieldtype": "Data",
+   "label": "Class"
+  },
+  {
+   "fieldname": "points_in_best_6",
+   "fieldtype": "Float",
+   "label": "Points in Best 6"
+  },
+  {
+   "default": "0",
+   "fieldname": "subjects_recorded",
+   "fieldtype": "Int",
+   "label": "Subjects Recorded",
+   "read_only": 1
+  },
+  {
+   "fieldname": "position_in_class",
+   "fieldtype": "Int",
+   "label": "Position in class"
+  },
+  {
+   "fieldname": "class_teacher_comment",
+   "fieldtype": "Long Text",
+   "label": "Class Teacher Comment"
+  },
+  {
+   "fieldname": "head_teacher_comment",
+   "fieldtype": "Long Text",
+   "label": "Head Teacher Comment"
+  },
+  {
+   "fieldname": "attendance",
+   "fieldtype": "Int",
+   "label": "Attendance"
+  },
+  {
+   "fieldname": "out_of_attendance",
+   "fieldtype": "Int",
+   "label": "Out of"
+  },
+  {
+   "fieldname": "out_of_position",
+   "fieldtype": "Int",
+   "label": "Out of"
+  },
+  {
+   "fieldname": "amount_unpaid",
+   "fieldtype": "Currency",
+   "label": "Amount Unpaid"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2021-09-14 13:03:46.244575",
+ "modified_by": "Administrator",
+ "module": "Education",
+ "name": "Report Card",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC"
+}
