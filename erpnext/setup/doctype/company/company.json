@@ -17,6 +17,17 @@
   "cb0",
   "domain",
   "parent_company",
+  "section_break_9",
+  "district",
+  "distance_from",
+  "zone",
+  "chiefdom",
+  "ward",
+  "column_break_15",
+  "constituency",
+  "level",
+  "category",
+  "running_agency",
   "charts_section",
   "default_currency",
   "default_letter_head",
@@ -734,6 +745,60 @@
    "fieldtype": "Link",
    "label": "Default Payment Discount Account",
    "options": "Account"
+  },
+  {
+   "fieldname": "section_break_9",
+   "fieldtype": "Section Break",
+   "label": "School Details"
+  },
+  {
+   "fieldname": "district",
+   "fieldtype": "Data",
+   "label": "District "
+  },
+  {
+   "fieldname": "distance_from",
+   "fieldtype": "Data",
+   "label": "Distance From"
+  },
+  {
+   "fieldname": "zone",
+   "fieldtype": "Data",
+   "label": "Zone"
+  },
+  {
+   "fieldname": "chiefdom",
+   "fieldtype": "Data",
+   "label": "Chiefdom"
+  },
+  {
+   "fieldname": "ward",
+   "fieldtype": "Data",
+   "label": "Ward"
+  },
+  {
+   "fieldname": "constituency",
+   "fieldtype": "Data",
+   "label": "Constituency"
+  },
+  {
+   "fieldname": "level",
+   "fieldtype": "Data",
+   "label": "Level"
+  },
+  {
+   "fieldname": "category",
+   "fieldtype": "Data",
+   "label": "Category"
+  },
+  {
+   "fieldname": "running_agency",
+   "fieldtype": "Data",
+   "label": "Running Agency"
+  },
+  {
+   "fieldname": "column_break_15",
+   "fieldtype": "Column Break"
   }
  ],
  "icon": "fa fa-building",
@@ -741,7 +806,7 @@
  "image_field": "company_logo",
  "is_tree": 1,
  "links": [],
- "modified": "2021-05-07 03:11:28.189740",
+ "modified": "2021-12-05 15:44:27.387126",
  "modified_by": "Administrator",
  "module": "Setup",
  "name": "Company",

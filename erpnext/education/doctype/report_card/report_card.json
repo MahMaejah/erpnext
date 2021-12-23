@@ -11,23 +11,30 @@
   "year",
   "term",
   "grade",
+  "column_break_6",
   "class_name",
   "attendance",
   "out_of_attendance",
   "amount_unpaid",
+  "section_break_11",
   "subjects",
+  "section_break_13",
   "subjects_recorded",
   "points_in_best_6",
   "position_in_class",
   "out_of_position",
+  "column_break_17",
+  "position_in_grade",
+  "out_of_position_in_grade",
+  "section_break_19",
   "class_teacher_comment",
+  "column_break_21",
   "head_teacher_comment"
  ],
  "fields": [
   {
    "fieldname": "student",
    "fieldtype": "Link",
-   "in_list_view": 1,
    "label": "Student",
    "options": "Student",
    "reqd": 1
@@ -60,12 +67,19 @@
   {
    "fieldname": "grade",
    "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
    "label": "Grade"
   },
   {
    "fieldname": "class_name",
    "fieldtype": "Data",
-   "label": "Class"
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Class",
+   "search_index": 1
   },
   {
    "fieldname": "points_in_best_6",
@@ -76,8 +90,12 @@
    "default": "0",
    "fieldname": "subjects_recorded",
    "fieldtype": "Int",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
    "label": "Subjects Recorded",
-   "read_only": 1
+   "read_only": 1,
+   "search_index": 1
   },
   {
    "fieldname": "position_in_class",
@@ -113,11 +131,45 @@
    "fieldname": "amount_unpaid",
    "fieldtype": "Currency",
    "label": "Amount Unpaid"
+  },
+  {
+   "fieldname": "column_break_6",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_11",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_13",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_17",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_19",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_21",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "position_in_grade",
+   "fieldtype": "Int",
+   "label": "Position In Grade"
+  },
+  {
+   "fieldname": "out_of_position_in_grade",
+   "fieldtype": "Int",
+   "label": "Out of "
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2021-09-14 13:03:46.244575",
+ "modified": "2021-12-17 13:16:17.905075",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Report Card",
@@ -134,8 +186,63 @@
    "role": "System Manager",
    "share": 1,
    "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Head Master",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Instructor",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Deputy Head Master",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Student",
+   "share": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Guest",
+   "share": 1
   }
  ],
  "sort_field": "modified",
- "sort_order": "DESC"
+ "sort_order": "DESC",
+ "title_field": "student_name"
 }

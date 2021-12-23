@@ -1,0 +1,112 @@
+{
+ "actions": [],
+ "autoname": "Letter.#####",
+ "creation": "2021-08-11 14:22:58.328223",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "student",
+  "student_name",
+  "examination_number",
+  "column_break_4",
+  "date_of_entry",
+  "date_of_exit",
+  "column_break_11",
+  "date",
+  "teacher",
+  "column_break_13",
+  "signature"
+ ],
+ "fields": [
+  {
+   "fieldname": "student",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Student Name ",
+   "options": "Student",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "student.title",
+   "fieldname": "student_name",
+   "fieldtype": "Read Only",
+   "in_global_search": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Student Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Todays Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_11",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "signature",
+   "fieldtype": "Signature",
+   "label": "Signature",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_13",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "teacher",
+   "fieldtype": "Link",
+   "label": "Teachers Name",
+   "options": "Instructor",
+   "reqd": 1
+  },
+  {
+   "fieldname": "examination_number",
+   "fieldtype": "Data",
+   "label": "Examination Number"
+  },
+  {
+   "fieldname": "date_of_entry",
+   "fieldtype": "Date",
+   "label": "Date Of Entry"
+  },
+  {
+   "fieldname": "date_of_exit",
+   "fieldtype": "Date",
+   "label": "Date of Exit"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2021-12-22 20:46:57.877403",
+ "modified_by": "Administrator",
+ "module": "Education",
+ "name": "Recommendation Letter",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

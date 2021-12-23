@@ -3,6 +3,47 @@
 
 frappe.ui.form.on('Assessment Result', {
 	refresh: function(frm) {
+		// ****** NEWLY ADDED STARTS HERE ****** //
+
+		var c = frm.doc.student + "-" + frm.doc.program + "-" + frm.doc.student_group + "-" + frm.doc.academic_year + "-" + frm.doc.academic_term;
+		if(frm.doc.student !== undefined/* || frm.doc.program !== undefined || frm.doc.student_group !== undefined*/){
+		//Check if report card exists
+		//console.log(c)
+		    if(!frm.doc.report_card_exists){
+    		    frappe.call({
+    		        method: 'erpnext.education.doctype.assessment_result.assessment_result.card_exists',
+    		        args: {"card_name": c},
+    		        callback: (res) => {
+    		            //Check if card doesn't exist and create a new one
+    		            if(res.message === undefined){
+    		                console.log(c)
+    		                console.log("Card not found, attempting to create new card")
+    		                console.log("Result: " + res.message)
+    		                frappe.call({
+    		                    method: 'erpnext.education.doctype.assessment_result.assessment_result.generate_report_card',
+    		                    args: {
+    		                        "gen_student": frm.doc.student, 
+    		                        "gen_grade": frm.doc.program, 
+    		                        "gen_class": frm.doc.student_group, 
+    		                        "gen_year": frm.doc.academic_year, 
+    		                        "gen_term": frm.doc.academic_term
+    		                    },
+    		                    callback: (re) => {
+    		                        frm.set_value("report_card_exists", 1)
+    		                    }
+    		                })
+    		            }
+    		            //Report card exists
+    		            else{
+    		                frm.set_value("report_card_exists", 1)
+    		            }
+    		        }
+    		    })
+    		}
+		//End if
+		}
+
+		// ****** NEWLY ADDED ENDS HERE ****** //
 		if (!frm.doc.__islocal) {
 			frm.trigger('setup_chart');
 		}
@@ -30,7 +71,8 @@ frappe.ui.form.on('Assessment Result', {
 
 		if(report_card != null){
 			frm.add_custom_button(__("Same Page"), function(){
-				window.location.href = 'https://maeja.ml/app/report-card/' + report_card;
+				console.log(frappe.utils.get_url());
+				//window.location.href = frappe.utils.get_url() + '/app/report-card/' + report_card;
 			}, __("Go to Report Card"));
 			  
 			frm.add_custom_button(__("New Page"), function(){

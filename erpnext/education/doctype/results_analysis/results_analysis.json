@@ -1,0 +1,42 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2021-10-19 22:48:33.064487",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "analysis"
+ ],
+ "fields": [
+  {
+   "fieldname": "analysis",
+   "fieldtype": "HTML",
+   "label": "Analysis",
+   "options": "<div id=\"analysiswrapper\"></div>\n\n<select class=\"btn btn-primary\" id=\"year\">\n  <option selected>Year</option>\n</select>"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2021-12-03 08:26:23.599046",
+ "modified_by": "Administrator",
+ "module": "Education",
+ "name": "Results Analysis",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

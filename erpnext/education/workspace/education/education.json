@@ -1,5 +1,5 @@
 {
- "category": "Domains",
+ "category": "Modules",
  "charts": [
   {
    "chart_name": "Program Enrollments",
@@ -12,7 +12,7 @@
  "docstatus": 0,
  "doctype": "Workspace",
  "extends_another_page": 0,
- "hide_custom": 0,
+ "hide_custom": 1,
  "icon": "education",
  "idx": 0,
  "is_default": 0,
@@ -41,7 +41,7 @@
    "dependencies": "",
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Instructor",
+   "label": "Teacher",
    "link_to": "Instructor",
    "link_type": "DocType",
    "onboard": 1,
@@ -558,6 +558,24 @@
    "type": "Link"
   },
   {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Result Analysis",
+   "link_to": "Results Analysis",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Report Card",
+   "link_to": "Report Card",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
    "dependencies": "",
    "hidden": 0,
    "is_query_report": 0,
@@ -574,6 +592,15 @@
    "link_type": "DocType",
    "onboard": 0,
    "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Teacher Attendance Tool",
+   "link_to": "Employee Attendance Tool",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
   },
   {
    "dependencies": "",
@@ -626,8 +653,26 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "School Departments",
+   "label": "School Department",
    "link_to": "School Department",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Administrator",
+   "link_to": "Administrator",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Office of Guidance and Counselling",
+   "link_to": "OFFICE OF GUIDANCE AND COUNSELING",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
@@ -653,11 +698,36 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Recommendation Letter",
-   "link_to": "Recommendation Letter",
+   "label": "Performance",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Appraisal",
+   "link_to": "Appraisal",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Appraisal Template",
+   "link_to": "Appraisal Template",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Letters",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
   },
   {
    "hidden": 0,
@@ -667,16 +737,51 @@
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Recommendation Letter",
+   "link_to": "Recommendation Letter",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Item Management",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Items",
+   "link_to": "School Asset",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Item Transaction Record",
+   "link_to": "Item Transaction",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2021-10-02 10:46:36.569686",
- "modified_by": "nchimumilimo939@gmail.com",
+ "modified": "2021-12-13 19:33:15.626140",
+ "modified_by": "Administrator",
  "module": "Education",
  "name": "Education",
  "onboarding": "Education",
  "owner": "Administrator",
  "pin_to_bottom": 0,
- "pin_to_top": 0,
+ "pin_to_top": 1,
  "restrict_to_domain": "Education",
  "shortcuts": [
   {
@@ -709,7 +814,7 @@
   {
    "doc_view": "UserList",
    "label": "School Items",
-   "link_to": "School Item",
+   "link_to": "School Asset",
    "type": "DocType"
   },
   {

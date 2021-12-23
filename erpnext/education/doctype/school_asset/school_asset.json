@@ -9,7 +9,9 @@
  "field_order": [
   "item_name",
   "item_image",
+  "item_type",
   "school_department",
+  "column_break_5",
   "total",
   "issued",
   "available"
@@ -55,16 +57,26 @@
    "fieldname": "item_image",
    "fieldtype": "Attach Image",
    "label": "Item Image"
+  },
+  {
+   "fieldname": "column_break_5",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "item_type",
+   "fieldtype": "Select",
+   "label": "Item Type",
+   "options": "Learning Material\nEquipment\nFurniture"
   }
  ],
  "image_field": "item_image",
  "index_web_pages_for_search": 1,
  "links": [],
  "max_attachments": 1,
- "modified": "2021-09-19 20:45:17.820459",
+ "modified": "2021-11-23 22:40:30.991731",
  "modified_by": "Administrator",
  "module": "Education",
- "name": "School Item",
+ "name": "School Asset",
  "owner": "Administrator",
  "permissions": [
   {

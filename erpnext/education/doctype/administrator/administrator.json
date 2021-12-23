@@ -1,0 +1,128 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:administrator_name",
+ "creation": "2021-11-12 21:46:14.215009",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "administrator_name",
+  "head_of_department_hod",
+  "school_profile",
+  "minutes",
+  "section_break_4",
+  "term_activities",
+  "section_break_6",
+  "staff_members",
+  "section_break_8",
+  "department_items"
+ ],
+ "fields": [
+  {
+   "fieldname": "head_of_department_hod",
+   "fieldtype": "Link",
+   "label": "Head of Department (H.O.D)",
+   "options": "Instructor",
+   "reqd": 1
+  },
+  {
+   "fieldname": "school_profile",
+   "fieldtype": "Attach",
+   "label": "School Profile"
+  },
+  {
+   "fieldname": "minutes",
+   "fieldtype": "Table",
+   "label": "Minutes",
+   "options": "MinutesTB"
+  },
+  {
+   "fieldname": "section_break_4",
+   "fieldtype": "Section Break",
+   "label": "Schedule of Term Activities"
+  },
+  {
+   "fieldname": "term_activities",
+   "fieldtype": "Table",
+   "label": "Term Activities",
+   "options": "School ActivityTB"
+  },
+  {
+   "fieldname": "section_break_6",
+   "fieldtype": "Section Break",
+   "label": "Teaching Staff"
+  },
+  {
+   "fieldname": "staff_members",
+   "fieldtype": "HTML",
+   "label": "Staff Members",
+   "options": "<div id=\"member_wrapper\"></div>"
+  },
+  {
+   "fieldname": "section_break_8",
+   "fieldtype": "Section Break",
+   "label": "Assets"
+  },
+  {
+   "fieldname": "department_items",
+   "fieldtype": "Table",
+   "label": "Department Items",
+   "options": "Department School Item"
+  },
+  {
+   "fieldname": "administrator_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Administrator Name",
+   "reqd": 1,
+   "unique": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2021-11-12 22:45:04.314672",
+ "modified_by": "Administrator",
+ "module": "Education",
+ "name": "Administrator",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Administrator",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Head Master",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Deputy Head Master",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

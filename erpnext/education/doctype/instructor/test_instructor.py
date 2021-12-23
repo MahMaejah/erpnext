@@ -1,12 +1,8 @@
-# -*- coding: utf-8 -*-
-# Copyright (c) 2015, Frappe Technologies and Contributors
+# Copyright (c) 2021, Frappe Technologies Pvt. Ltd. and Contributors
 # See license.txt
-from __future__ import unicode_literals
 
-import frappe
+# import frappe
 import unittest
-
-# test_records = frappe.get_test_records('Instructor')
 
 class TestInstructor(unittest.TestCase):
 	pass

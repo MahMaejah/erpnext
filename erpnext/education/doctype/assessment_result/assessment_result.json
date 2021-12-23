@@ -183,7 +183,7 @@
    "label": "Report Card Name"
   },
   {
-   "default": "0",
+   "default": "1",
    "fieldname": "report_card_exists",
    "fieldtype": "Check",
    "label": "Report Card Exists"
@@ -198,7 +198,7 @@
  ],
  "is_submittable": 1,
  "links": [],
- "modified": "2021-09-08 09:21:05.461300",
+ "modified": "2021-12-17 12:23:00.845708",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Assessment Result",

@@ -10,13 +10,16 @@
   "head_of_department_hod",
   "department_profile",
   "department_minutes",
+  "department_past_papers",
   "activities_section",
   "activity_list",
   "department_items_section",
-  "department_items",
+  "learning_materials",
+  "equipment",
+  "furniture",
   "total",
   "members_section",
-  "department_members",
+  "teachers",
   "table_16",
   "short_fall"
  ],
@@ -44,26 +47,14 @@
    "label": "Members"
   },
   {
-   "fieldname": "department_members",
-   "fieldtype": "Table",
-   "label": "Department Members",
-   "options": "List of Instructors"
-  },
-  {
    "fieldname": "department_items_section",
    "fieldtype": "Section Break",
-   "label": "Department Items"
+   "label": "Department Assets"
   },
   {
    "fieldname": "total",
    "fieldtype": "Int",
    "label": "Total"
-  },
-  {
-   "fieldname": "department_items",
-   "fieldtype": "Table",
-   "label": "Department Items",
-   "options": "Department School Item"
   },
   {
    "fieldname": "short_fall",
@@ -73,6 +64,7 @@
   {
    "fieldname": "table_16",
    "fieldtype": "Table",
+   "label": "Department Periods",
    "options": "PeriodsTB"
   },
   {
@@ -95,12 +87,42 @@
    "fieldname": "activity_list",
    "fieldtype": "Table",
    "label": "Activity List",
-   "options": "School Activity"
+   "options": "School ActivityTB"
+  },
+  {
+   "fieldname": "department_past_papers",
+   "fieldtype": "Table",
+   "label": "Department Past Papers",
+   "options": "Past PapersTB"
+  },
+  {
+   "fieldname": "teachers",
+   "fieldtype": "HTML",
+   "label": "Teachers",
+   "options": "<div id=\"table_members_wrapper\"></div>"
+  },
+  {
+   "fieldname": "learning_materials",
+   "fieldtype": "Table",
+   "label": "Learning Materials",
+   "options": "Department School Item"
+  },
+  {
+   "fieldname": "equipment",
+   "fieldtype": "Table",
+   "label": "Equipment",
+   "options": "EquipmentTB"
+  },
+  {
+   "fieldname": "furniture",
+   "fieldtype": "Table",
+   "label": "Furniture",
+   "options": "FurnitureTB"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2021-10-02 19:01:03.361036",
+ "modified": "2021-12-13 19:53:46.457138",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "School Department",

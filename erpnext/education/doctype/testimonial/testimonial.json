@@ -1,0 +1,124 @@
+{
+ "actions": [],
+ "autoname": "Testimonial.#####",
+ "creation": "2021-08-16 10:26:43.607549",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "student",
+  "column_break_2",
+  "student_name",
+  "characters_section",
+  "testimonial_tb",
+  "participation_in_school_life_section",
+  "sports",
+  "clubs",
+  "positions_of_responsibility",
+  "outstanding_achievements",
+  "section_break_11",
+  "general_remarks",
+  "column_break_13",
+  "signature"
+ ],
+ "fields": [
+  {
+   "fieldname": "signature",
+   "fieldtype": "Signature",
+   "label": "Signature",
+   "reqd": 1
+  },
+  {
+   "fieldname": "characters_section",
+   "fieldtype": "Section Break",
+   "label": "Characters"
+  },
+  {
+   "fieldname": "testimonial_tb",
+   "fieldtype": "Table",
+   "options": "TestimonialTB"
+  },
+  {
+   "fieldname": "participation_in_school_life_section",
+   "fieldtype": "Section Break",
+   "label": "Participation In School Life"
+  },
+  {
+   "fieldname": "sports",
+   "fieldtype": "Small Text",
+   "label": "Sports "
+  },
+  {
+   "fieldname": "clubs",
+   "fieldtype": "Small Text",
+   "label": "Clubs"
+  },
+  {
+   "fieldname": "positions_of_responsibility",
+   "fieldtype": "Small Text",
+   "label": "Positions of responsibility"
+  },
+  {
+   "fieldname": "outstanding_achievements",
+   "fieldtype": "Small Text",
+   "label": "Outstanding achievements"
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "student",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Student",
+   "options": "Student",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_11",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "general_remarks",
+   "fieldtype": "Small Text",
+   "label": "General Remarks"
+  },
+  {
+   "fieldname": "column_break_13",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "student.title",
+   "fieldname": "student_name",
+   "fieldtype": "Read Only",
+   "in_global_search": 1,
+   "label": "Student Name",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2021-12-22 20:47:44.571805",
+ "modified_by": "Administrator",
+ "module": "Education",
+ "name": "Testimonial",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

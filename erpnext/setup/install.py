@@ -32,8 +32,48 @@ def after_install():
 	add_standard_navbar_items()
 	add_app_name()
 	add_non_standard_user_types()
+
+	#Call education defaults function
+	set_education_defaults()
+
 	frappe.db.commit()
 
+#Create Education Defaults
+def set_education_defaults():
+	insert_grades()
+
+def insert_grades():
+	grades_low = [
+		"Grade 1",
+		"Grade 2",
+		"Grade 3",
+		"Grade 4",
+		"Grade 5",
+		"Grade 6",
+		"Grade 7",
+		"Grade 8",
+		"Grade 9"
+	]
+
+	grades_high = [
+		"Grade 10",
+		"Grade 11",
+		"Grade 12"
+	]
+
+	for grade in grades_low:
+		g = frappe.get_doc({
+			"doctype": "Program",
+			"senior_secondary": 0,
+			"program_name": grade
+		})
+
+	for grade in grades_high:
+		g = frappe.get_doc({
+			"doctype": "Program",
+			"senior_secondary": 1,
+			"program_name": grade
+		})
 
 def check_setup_wizard_not_completed():
 	if cint(frappe.db.get_single_value('System Settings', 'setup_complete') or 0):

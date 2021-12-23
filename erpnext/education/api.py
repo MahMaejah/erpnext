@@ -10,6 +10,28 @@ from frappe.model.mapper import get_mapped_doc
 from frappe.utils import flt, cstr, getdate
 from frappe.email.doctype.email_group.email_group import add_subscribers
 
+@frappe.whitelist()
+def get_current_academic_year():
+	current_year = frappe.db.get_single_value("Education Settings", "current_academic_year")
+	current_year_analysis = frappe.db.sql("""SELECT COUNT(points_in_best_6), class_name, points_in_best_6, year, term FROM `tabReport Card` WHERE year = %s GROUP BY points_in_best_6, class_name""", (current_year), as_dict=1)
+	return current_year_analysis
+
+@frappe.whitelist()
+def department_subject_analysis(dep_name):
+	if frappe.db.count('Course', {'department': dep_name}) > 0:
+		subject_list = frappe.get_list('Course', filters={'department': dep_name}, fields=['name'])
+		#  arr = []
+		#  for sub in subject_list:
+		# 	 arr.append(sub)
+
+		default_subject = subject_list[0].name
+		current_year = frappe.db.get_single_value("Education Settings", "current_academic_year")
+		current_year_analysis = frappe.db.sql("""SELECT COUNT(total_score), student_group, total_score, academic_year, academic_term FROM `tabAssessment Result` WHERE academic_year = %s AND course = %s GROUP BY student_group""", (current_year, default_subject), as_dict=1)
+		return current_year_analysis 
+	else: 
+		return "nothing" 
+
+
 def get_course(program):
 	'''Return list of courses for a particular program
 	:param program: Program

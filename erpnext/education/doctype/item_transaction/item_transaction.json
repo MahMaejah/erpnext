@@ -10,6 +10,7 @@
   "full_name",
   "status",
   "item",
+  "column_break_5",
   "quantity",
   "available",
   "from_date",
@@ -36,7 +37,7 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Item",
-   "options": "School Item",
+   "options": "School Asset",
    "reqd": 1
   },
   {
@@ -71,11 +72,15 @@
    "fieldname": "quantity",
    "fieldtype": "Int",
    "label": "Quantity"
+  },
+  {
+   "fieldname": "column_break_5",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2021-08-14 09:38:37.982070",
+ "modified": "2021-12-03 08:36:25.926562",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Item Transaction",

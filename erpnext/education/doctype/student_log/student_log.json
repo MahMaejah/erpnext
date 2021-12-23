@@ -40,13 +40,14 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Type",
-   "options": "General\nAcademic\nMedical\nAchievement"
+   "options": "General\nPregnancy\nDeath\nRe-Entry\nDrop Out"
   },
   {
    "fieldname": "date",
    "fieldtype": "Date",
    "in_list_view": 1,
-   "label": "Date"
+   "label": "Date",
+   "reqd": 1
   },
   {
    "fieldname": "column_break_3",
@@ -88,7 +89,7 @@
   }
  ],
  "links": [],
- "modified": "2021-08-05 17:08:49.990401",
+ "modified": "2021-12-09 12:05:24.932031",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Student Log",
