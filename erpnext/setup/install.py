@@ -40,7 +40,7 @@ def after_install():
 
 #Create Education Defaults
 def set_education_defaults():
-	insert_assessment_criteria
+	insert_assessment_criteria()
 	insert_grades()
 
 def insert_assessment_criteria():
