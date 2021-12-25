@@ -40,7 +40,18 @@ def after_install():
 
 #Create Education Defaults
 def set_education_defaults():
+	insert_assessment_criteria
 	insert_grades()
+
+def insert_assessment_criteria():
+	assessment_criteria_list = ["Mid Term", "End of Term"]
+	for assessment_criteria in assessment_criteria_list:
+		criteria = frappe.get_doc({
+			"doctype": "Assessment Criteria",
+			"assessment_criteria": assessment_criteria
+		})
+
+		criteria.insert()
 
 def insert_grades():
 	grades_low = [
@@ -68,12 +79,16 @@ def insert_grades():
 			"program_name": grade
 		})
 
+		g.insert()
+
 	for grade in grades_high:
 		g = frappe.get_doc({
 			"doctype": "Program",
 			"senior_secondary": 1,
 			"program_name": grade
 		})
+
+		g.insert()
 
 def check_setup_wizard_not_completed():
 	if cint(frappe.db.get_single_value('System Settings', 'setup_complete') or 0):

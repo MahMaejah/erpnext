@@ -14,14 +14,24 @@ import erpnext.education
 
 class AssessmentResult(Document):
 	def before_save(self):
-		# self.comment = "Null"
+		mid_term_score = 0.00
+		end_term_score = 0.00
 
+		# Check mid-term
+		mid_term_exists = False
+		for criteria in self.details:
+			if criteria.assessment_criteria.lower() == "Mid Term".lower():
+				mid_term_exists = True
+				mid_term_score = criteria.score
+
+			elif criteria.assessment_criteria.lower() == "End of Term".lower():
+				end_term_score = criteria.score
+		
 		#Grading Scale Comments (Auto comments)
-		if self.comment == "":
-			grading_scale = frappe.get_doc("Grading Scale", self.grading_scale)
-			for interval in grading_scale.intervals:
-				if interval.grade_code == self.grade:
-					self.comment = interval.grade_description
+		grading_scale = frappe.get_doc("Grading Scale", self.grading_scale)
+		for interval in grading_scale.intervals:
+			if interval.grade_code == self.grade:
+				self.comment = interval.grade_description
 
 		#Format for report card naming series Studentid-grade-class-year-term
 		rcnformat = f'{self.student}-{self.program}-{self.student_group}-{self.academic_year}-{self.academic_term}'
@@ -30,44 +40,8 @@ class AssessmentResult(Document):
 		
 		if exists:
 			#Call report card validation
-			validate_report_cards(rcnformat, self.course, self.total_score, self.grade, self.comment)
-		# Teachers Comments on Subjects
-		# if sub_score >= 85:
-		# 	print("Excellent Results")
-		# elif sub_score >= 75 and sub_score < 85:
-		# 	print("Very Good Results")
-		# elif sub_score >= 60 and sub_score < 75:
-		# 	print("Good Results")
-		# elif sub_score >= 50 and sub_score < 60:
-		# 	print("Fair Results")
-		# elif sub_score >= 0 and sub_score < 50:
-		# 	print("fail")
-		
-		# Head Teachers/Class Teachers Comments on overall points
-		# if points >= 6 and points < 10:
-		# 	print("Excellent Results")
-		# elif points >= 10 and points < 15:
-		# 	print("Very Good Results")
-		# elif points >= 15 and points < 25:
-		# 	print("Good Results")
-		# elif points >= 25 and points < 33:
-		# 	print("Fair Results")
-		# elif points >= 33:
-		# 	print("Work Hard")
+			validate_report_cards(rcnformat, self.course, mid_term_score, end_term_score, self.total_score, self.grade, self.comment)
 
-		"""else:
-			#Create card if it doesn't exist
-			rc = frappe.get_doc({
-					"doctype": "Report Card",
-					"student": self.student,
-					"grade": self.program,
-					"class_name": self.student_group,
-					"year": self.academic_year,
-					"term": self.academic_term
-			})
-			rc.insert()
-			#Call report card validation
-			validate_report_cards(rcnformat, self.course, self.total_score, self.grade, self.comment)"""
 		get_scores_for_previous_term(self.student, self.program, self.student_group, self.course, rcnformat)
 		
 	def validate(self):
@@ -103,7 +77,48 @@ class AssessmentResult(Document):
 		if assessment_result:
 			frappe.throw(_("Assessment Result record {0} already exists.").format(getlink("Assessment Result",assessment_result[0].name)))
 
-def validate_report_cards(rcname, subj, total_score, grade, comment):
+# AUTO_COMMENTS
+def add_auto_comments(current_report_card):
+	# Teachers Comments on Subjects
+	# Report Card Being Commented
+	current_report_card = frappe.get_doc("Report Card", current_report_card)
+	points = current_report_card.points_in_best_6
+
+	# if sub_score >= 85:
+	# 	print("Excellent Results")
+	# elif (sub_score >= 75) and (sub_score < 85):
+	# 	print("Very Good Results")
+	# elif sub_score >= 60 and sub_score < 75:
+	# 	print("Good Results")
+	# elif sub_score >= 50 and sub_score < 60:
+	# 	print("Fair Results")	
+	# elif sub_score >= 0 and sub_score < 50:
+	# 	print("fail")
+	
+	# Head Teachers/Class Teachers Comments on overall points
+	
+	if current_report_card.class_teacher_comment == "":
+		frappe.msgprint("i am called")
+		if points >= 6 and points < 10:
+			current_report_card.class_teacher_comment = "Excellent Results"
+			#print("Excellent Results")
+		elif points >= 10 and points < 15:
+			current_report_card.class_teacher_comment = "Very Good Results"
+			#print("Very Good Results")
+		elif points >= 15 and points < 25:
+			current_report_card.class_teacher_comment = "Good Results"
+			#print("Good Results")
+		elif points >= 25 and points < 33:
+			current_report_card.class_teacher_comment = "Fair Results"
+			#print("Fair Results")
+		elif points >= 33:
+			current_report_card.class_teacher_comment = "Work Hard"
+			#print("Work Hard")
+		current_report_card.save()
+		
+
+
+def validate_report_cards(rcname, subj, mid_term_score, end_term_score, total_score, grade, comment):
 	
 	report_card = frappe.get_doc("Report Card", rcname)
 	#frappe.msgprint("Get report card doctype")
@@ -115,7 +130,7 @@ def validate_report_cards(rcname, subj, total_score, grade, comment):
 	})
 
 	if subject_entry_exists:
-		validate_report_card_details(rcname, subj, total_score, grade, comment)
+		validate_report_card_details(rcname, subj, mid_term_score, end_term_score, total_score, grade, comment)
 
 	else:
 		#Add entry to child table if it doesn't exist
@@ -123,10 +138,10 @@ def validate_report_cards(rcname, subj, total_score, grade, comment):
 			"subject": subj
 		})
 		row.insert()
-		validate_report_card_details(rcname, subj, total_score, grade, comment)
+		validate_report_card_details(rcname, subj, mid_term_score, end_term_score, total_score, grade, comment)
 
 @frappe.whitelist()
-def validate_report_card_details(rcname , rcsubject, rctotal_score, grade, grade_comment):
+def validate_report_card_details(rcname , rcsubject, mid_term_score, end_term_score, rctotal_score, grade, grade_comment):
 	#Report card being updated
 	r_card = frappe.get_doc("Report Card", rcname)
 	#Update number of subjects recorded
@@ -134,6 +149,8 @@ def validate_report_card_details(rcname , rcsubject, rctotal_score, grade, grade
 
 	for subject in r_card.subjects:
 		if subject.subject == rcsubject:
+			subject.mid_term = mid_term_score
+			subject.end_of_term = end_term_score
 			subject.score = rctotal_score
 			subject.grade = grade
 			subject.grade_comment = grade_comment
@@ -192,6 +209,7 @@ def calculate_points(points_card_name):
 	points_card_name.save()
 	validate_attendance(points_card_name.name)
 	calculate_position_in_class(points_card_name.name)
+	add_auto_comments(points_card_name.name)
 
 def validate_attendance(attendance_card_name):
 	attendance_card = frappe.get_doc("Report Card", attendance_card_name)

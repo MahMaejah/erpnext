@@ -6,6 +6,8 @@
  "engine": "InnoDB",
  "field_order": [
   "subject",
+  "mid_term",
+  "end_of_term",
   "score",
   "score_last_term",
   "grade",
@@ -92,12 +94,24 @@
    "fieldtype": "Int",
    "in_list_view": 1,
    "label": "Position in Grade"
+  },
+  {
+   "fieldname": "mid_term",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Mid Term"
+  },
+  {
+   "fieldname": "end_of_term",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "End of Term"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2021-12-17 13:24:41.448824",
+ "modified": "2021-12-25 08:21:46.601401",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Report Card Subject",

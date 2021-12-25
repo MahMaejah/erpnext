@@ -104,12 +104,12 @@
   },
   {
    "fieldname": "class_teacher_comment",
-   "fieldtype": "Long Text",
+   "fieldtype": "Small Text",
    "label": "Class Teacher Comment"
   },
   {
    "fieldname": "head_teacher_comment",
-   "fieldtype": "Long Text",
+   "fieldtype": "Small Text",
    "label": "Head Teacher Comment"
   },
   {
@@ -169,7 +169,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2021-12-17 13:16:17.905075",
+ "modified": "2021-12-23 22:06:44.990140",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Report Card",

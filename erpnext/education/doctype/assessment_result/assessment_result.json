@@ -179,13 +179,15 @@
   },
   {
    "fieldname": "report_card_name",
-   "fieldtype": "Data",
-   "label": "Report Card Name"
+   "fieldtype": "Link",
+   "label": "Report Card",
+   "options": "Report Card"
   },
   {
    "default": "1",
    "fieldname": "report_card_exists",
    "fieldtype": "Check",
+   "hidden": 1,
    "label": "Report Card Exists"
   },
   {
@@ -193,12 +195,13 @@
    "fetch_from": "course.compulsory",
    "fieldname": "compulsory",
    "fieldtype": "Check",
+   "hidden": 1,
    "label": "Compulsory"
   }
  ],
  "is_submittable": 1,
  "links": [],
- "modified": "2021-12-17 12:23:00.845708",
+ "modified": "2021-12-25 09:55:54.999038",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Assessment Result",
