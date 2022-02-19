@@ -8,6 +8,9 @@
  "field_order": [
   "department_name",
   "head_of_department_hod",
+  "column_break_3",
+  "hod_full_name",
+  "section_break_5",
   "department_profile",
   "department_minutes",
   "department_past_papers",
@@ -38,8 +41,7 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Head of Department (H.O.D)",
-   "options": "Instructor",
-   "reqd": 1
+   "options": "Instructor"
   },
   {
    "fieldname": "members_section",
@@ -118,11 +120,25 @@
    "fieldtype": "Table",
    "label": "Furniture",
    "options": "FurnitureTB"
+  },
+  {
+   "fetch_from": "head_of_department_hod.instructor_name",
+   "fieldname": "hod_full_name",
+   "fieldtype": "Read Only",
+   "label": "H.O.D Full Name"
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_5",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2021-12-13 19:53:46.457138",
+ "modified": "2022-01-30 11:35:04.794908",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "School Department",

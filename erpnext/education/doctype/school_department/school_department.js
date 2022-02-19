@@ -3,8 +3,9 @@
 
 frappe.ui.form.on('School Department', {
 	 refresh: function(frm) {
-		frm.add_custom_button(__('Issue Learning Material'), function(){
-		    frappe.msgprint("Working");
+		frm.add_custom_button(__('View Tasks'), function(){
+		    // frappe.msgprint("Working");
+
 		});
 		
 		// your code here
@@ -39,20 +40,26 @@ frappe.ui.form.on('School Department', {
             `<table class="table">
               <thead class="thead-light">
                 <tr>
-                  <th scope="col">Teacher</th>
-                  <th scope="col">Sex</th>
-                  <th scope="col">Qualification</th>
-                  <th scope="col">Position</th>
-                  <th scope="col">Subjects</th>
-                  <th scope="col">Total N.O of Periods<th>
+                  <th>Teacher</th>
+                  <th>Sex</th>
+                  <th>Qualification</th>
+                  <th>Position</th>
+                  <th>Minor</th>
+                  <th>Major</th>
+                  <th>Total N.O of Periods<th>
+                </tr>
+                <tr>
+                  
                 </tr>
               </thead>
               <tbody id="chick">
               </tbody>
             </table>`)
-        
+
+            $("#table_members_wrapper").css({"overflow":"auto", "width": "100%"})
+
                 frappe.db.get_list('Instructor', {
-                    fields: ['instructor_name','gender','qualification','position','subjects','total_no_of_periods'],
+                    fields: ['instructor_name','gender','qualification','position','subjects_currently_teaching_minor','subjects_currently_teaching_major','total_no_of_periods'],
                     filters: {
                         'school_department': frm.doc.name
                     }
@@ -61,12 +68,13 @@ frappe.ui.form.on('School Department', {
                     $.each(records, function(i,e){
                         $("#chick").append(
                          `<tr>
-                          <th scope="row">`+e["instructor_name"]+`</th>
+                          <td>`+e["instructor_name"]+`</td>
                           <td>`+e["gender"]+`</td>
                           <td>`+e["qualification"]+`</td>
                           <td>`+e["position"]+`</td>
-                          <td>`+e["subjects"]+`</td>
-                        //   <td>`+e["total_no_of_periods"]+`</td>
+                          <td>`+e["subjects_currently_teaching_minor"]+`</td>
+                          <td>`+e["subjects_currently_teaching_major"]+`</td>
+                          <td>`+e["total_no_of_periods"]+`</td>
                           </tr>`
                             
                             )

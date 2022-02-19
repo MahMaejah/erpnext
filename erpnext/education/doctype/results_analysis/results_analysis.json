@@ -13,13 +13,13 @@
    "fieldname": "analysis",
    "fieldtype": "HTML",
    "label": "Analysis",
-   "options": "<div id=\"analysiswrapper\"></div>\n\n<select class=\"btn btn-primary\" id=\"year\">\n  <option selected>Year</option>\n</select>"
+   "options": "<div id=\"analysiswrapper\"></div>\n\n"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2021-12-03 08:26:23.599046",
+ "modified": "2022-01-16 19:53:40.229982",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Results Analysis",

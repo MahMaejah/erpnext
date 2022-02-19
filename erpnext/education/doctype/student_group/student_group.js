@@ -29,8 +29,24 @@ frappe.ui.form.on('Student Group', {
 	},
 
 	refresh: function(frm) {
-		if (!frm.doc.__islocal) {
+		if (frappe.user_roles.includes('Head Master') || frappe.user_roles.includes('Deputy Head Master') || frappe.session.user_email === frm.doc.class_teacher){
+			//console.log(frm.doc.class_teacher.username)
+			frm.add_custom_button('Release Report Cards', () => {
+				frappe.confirm('Are you sure you want to release Report Cards for <b>' + frm.doc.name + '</b>?',
+				() => {
+					// action to perform if Yes is selected
+					//console.log("Disbursing report cards");
+					frappe.call({
+						method: "erpnext.education.api.report_card_disbursement",
+						args: {
+							"class_name": frm.doc.name
+						}
+					})
+				})
+			});
+		}
 
+		if (!frm.doc.__islocal) {
 			frm.add_custom_button(__('Add Guardians to Email Group'), function() {
 				frappe.call({
 					method: 'erpnext.education.api.update_email_group',
@@ -81,6 +97,53 @@ frappe.ui.form.on('Student Group', {
 			frm.set_df_property('course', 'reqd', 0);
 		}
 	},
+
+	/*release_report_cards: function(frm){
+		if (frm.doc.release_report_cards == 1){
+			// frappe.msgprint(__('Yes...'));
+			frappe.confirm('Are you sure you want to Release all Report Cards?',
+			() => {
+				frappe.msgprint(__('Released'));
+				// Get a list of students in the current students child table
+				frappe.db.get_single_value('Education Settings', 'current_academic_term')
+				.then(term_name => {
+					var t = term_name;
+					console.log(t);
+				})
+				frappe.db.get_doc("Student Group", frm.doc.name)
+				.then(doc => {
+					var students = doc.current_students;
+					for( let d of students){
+						var v = d.student_name
+						console.log(v)
+						// Get a reference to report cards of the students in the child table 
+						frappe.db.get_doc('Report Card', null, { student_name: `${v}`, term: "2021-22 (Term 2)" })
+						.then(r_doc => {
+							console.log(r_doc.name)
+							var n = r_doc.name
+							// Set value of field {is_released} to true if it is false of all Report Cards returned
+							frappe.db.set_value('Report Card', `${n}`, 'is_released', 1)
+							.then(r => {
+								let n_doc = r.message;
+								console.log(n_doc);
+							}) 
+						})
+						
+						
+					}
+				})
+				
+
+				
+			}, () => {
+				frappe.msgprint(__('Not Released'));
+				// Set field {release_report_cards} back to false
+				frm.set_value(1, 0);
+				frm.refresh()
+			})
+		}
+	
+	},*/
 
 	get_students: function(frm) {
 		if (frm.doc.group_based_on == 'Batch' || frm.doc.group_based_on == 'Course') {

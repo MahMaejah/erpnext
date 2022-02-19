@@ -61,7 +61,7 @@
    "dependencies": "",
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Student Group",
+   "label": "Class",
    "link_to": "Student Group",
    "link_type": "DocType",
    "onboard": 0,
@@ -212,6 +212,15 @@
    "type": "Link"
   },
   {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Auto Comments",
+   "link_to": "Auto Comments",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
    "dependencies": "",
    "hidden": 0,
    "is_query_report": 0,
@@ -227,54 +236,6 @@
    "is_query_report": 0,
    "label": "Academic Year",
    "link_to": "Academic Year",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Admission",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Student Applicant",
-   "link_to": "Student Applicant",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Student Admission",
-   "link_to": "Student Admission",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Grade Enrollment",
-   "link_to": "Program Enrollment",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Subject Enrollment",
-   "link_to": "Course Enrollment",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
@@ -672,7 +633,7 @@
    "hidden": 0,
    "is_query_report": 0,
    "label": "Office of Guidance and Counselling",
-   "link_to": "OFFICE OF GUIDANCE AND COUNSELING",
+   "link_to": "Guidance and Cancelling",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
@@ -732,8 +693,8 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Testimonial",
-   "link_to": "Testimonial",
+   "label": "Recommendation Letter",
+   "link_to": "Recommendation Letter",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
@@ -741,8 +702,17 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Recommendation Letter",
-   "link_to": "Recommendation Letter",
+   "label": "Testimonial Template",
+   "link_to": "Testimonial Characters Template",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Testimonial",
+   "link_to": "Testimonial",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
@@ -774,7 +744,7 @@
    "type": "Link"
   }
  ],
- "modified": "2021-12-23 22:24:01.022190",
+ "modified": "2022-02-01 18:47:05.281763",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Home",
@@ -797,7 +767,7 @@
    "color": "Grey",
    "doc_view": "",
    "format": "{} Active",
-   "label": "Instructor",
+   "label": "Teacher",
    "link_to": "Instructor",
    "stats_filter": "{\n    \"status\": \"Active\"\n}",
    "type": "DocType"
@@ -812,7 +782,7 @@
    "type": "DocType"
   },
   {
-   "doc_view": "UserList",
+   "doc_view": "List",
    "label": "School Items",
    "link_to": "School Asset",
    "type": "DocType"

@@ -2,7 +2,8 @@
 # License: GNU General Public License v3. See license.txt
 
 from __future__ import print_function, unicode_literals
-
+import datetime
+from sre_parse import CATEGORIES
 import frappe
 from erpnext.accounts.doctype.cash_flow_mapper.default_cash_flow_mapper import DEFAULT_MAPPERS
 from .default_success_action import get_default_success_action
@@ -42,6 +43,89 @@ def after_install():
 def set_education_defaults():
 	insert_assessment_criteria()
 	insert_grades()
+	# insertAcadmicYearDocType()
+	insert_administrators()
+	insertAutoComments()
+	insert_school_departments()
+	insert_guidance_and_cancelling()
+
+def insertAcadmicYearDocType():
+	'''' Grading Scale-Percentage Grading
+		3. Academic year and Term Format has to be strict
+		4. Assesment Criteria - End of Term and Midterm
+		5. Autocomments inculding the data inside the doctype'''
+
+	current_year = datetime.datetime.now().year
+	current_year_pre = int(str(current_year)[0:2])
+	current_year_sur = int(str(current_year)[2:])
+
+	for x in range(current_year_sur,51):
+		new_academic_year = frappe.new_doc("Academic Year")
+		new_academic_year.academic_year_name = str(current_year_pre)+str(x)+'-'+str(x+1)
+		new_academic_year.year_start_date = f"01-01-{str(new_academic_year.academic_year_name)[0:4]}"
+		new_academic_year.year_end_date = f"31-12-{str(new_academic_year.academic_year_name)[0:4]}"
+		try:
+			exists =  frappe.db.exists("Academic Year",new_academic_year)
+			if exists:
+				name = new_academic_year.academic_year_name
+				new_academic_year = frappe.get_doc('Academic Year',name)
+			else:
+				try:
+					new_academic_year.insert()
+				except:
+					frappe.msgprint("---")
+		except:
+				new_academic_year.insert()
+
+		for i in range(1,4):
+			termDoc = frappe.new_doc('Academic Term')
+			termDoc.academic_year = new_academic_year.academic_year_name
+			termDoc.term_name = f'Term {i}'
+			termDoc.title = f'{termDoc.academic_year} ({termDoc.term_name})'
+			term_exists = frappe.db.exists('Academic Term',termDoc.title)
+			if term_exists:
+				continue
+			else:
+				termDoc.insert()
+
+def insertAutoComments():
+	CATEGORIES = ["Subject Teacher Auto Comments", "Class/Head Teacher Auto Comments"]
+	for category in CATEGORIES:
+		auto_comment = frappe.new_doc("Auto Comments")
+		auto_comment.name1 = category
+		exists = frappe.db.exists("Auto Comments",category)
+		if(exists):
+			continue
+		else:
+			auto_comment.insert()
+
+def insert_administrators():
+	administrator_list = ["Head Master", "Deputy Head Master"]
+	for administrator in administrator_list:
+		admin = frappe.get_doc({
+			"doctype": "Administrator",
+			"administrator_name": administrator
+		})
+
+		admin.insert()
+
+def insert_school_departments():
+	school_department_list = ["Department of Natural Sciences", "Department of Mathematics","Department of Languages","Department of Business Studies","Department of Social Sciences","Department of Design and Technology","Department of Arts"]
+	for d in school_department_list:
+		department = frappe.get_doc({
+			"doctype": "School Department",
+			"department_name": d
+		})
+
+		department.insert()
+
+def insert_guidance_and_cancelling():
+		dep = frappe.get_doc({
+			"doctype": "Guidance and Counselling",
+			"department_name": "Office of Guidance and Counselling"
+		})
+
+		dep.insert()
 
 def insert_assessment_criteria():
 	assessment_criteria_list = ["Mid Term", "End of Term"]

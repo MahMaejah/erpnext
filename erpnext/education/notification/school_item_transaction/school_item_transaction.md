@@ -1,0 +1,1 @@
+Item transaction against {{ doc.full_name }} for {{ doc.item }}

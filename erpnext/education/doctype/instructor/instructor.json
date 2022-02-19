@@ -8,11 +8,13 @@
  "engine": "InnoDB",
  "field_order": [
   "instructor_name",
+  "surname",
   "other_name",
   "naming_series",
   "date_of_birth",
   "gender",
   "nrc_no",
+  "ts_no",
   "man_no",
   "employee",
   "institution",
@@ -26,11 +28,18 @@
   "appointment_status",
   "salary_scale",
   "status",
-  "signature",
   "school_department",
   "image",
   "log_details",
   "instructor_log",
+  "subjects_currently_teaching_section",
+  "subjects_currently_teaching_minor",
+  "column_break_27",
+  "subjects_currently_teaching_major",
+  "subjects_trained_teaching_section",
+  "subjects_trained_to_teach_major",
+  "column_break_31",
+  "subjects_trained_to_teach_minor",
   "section_break_16",
   "position",
   "date_first_appointed",
@@ -38,8 +47,6 @@
   "date_of_retirement",
   "column_break_20",
   "professional_documents",
-  "subjects",
-  "subjects_currently_teaching",
   "total_no_of_periods"
  ],
  "fields": [
@@ -47,13 +54,15 @@
    "fieldname": "instructor_name",
    "fieldtype": "Data",
    "in_global_search": 1,
-   "label": "Surname",
+   "in_standard_filter": 1,
+   "label": "Full Name",
    "reqd": 1
   },
   {
    "fieldname": "other_name",
    "fieldtype": "Data",
-   "label": "Other Name"
+   "label": "Other Name",
+   "reqd": 1
   },
   {
    "fieldname": "naming_series",
@@ -82,10 +91,9 @@
   },
   {
    "fieldname": "employee",
-   "fieldtype": "Link",
+   "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Employee No.",
-   "options": "Employee"
+   "label": "Employee No."
   },
   {
    "fieldname": "column_break_5",
@@ -95,12 +103,6 @@
    "fieldname": "qualification",
    "fieldtype": "Data",
    "label": "Qualification"
-  },
-  {
-   "fieldname": "signature",
-   "fieldtype": "Link",
-   "label": "Signature",
-   "options": "Signature"
   },
   {
    "fetch_from": "employee.department",
@@ -158,11 +160,6 @@
    "label": "Professional Documents"
   },
   {
-   "fieldname": "subjects",
-   "fieldtype": "Data",
-   "label": "Subjects Trained to Teach"
-  },
-  {
    "fieldname": "total_no_of_periods",
    "fieldtype": "Int",
    "label": "Total NO. of Periods"
@@ -171,17 +168,17 @@
    "fieldname": "appointment_status",
    "fieldtype": "Select",
    "label": "Appointment Status",
-   "options": "Temporary\nPermanent\nContractual"
+   "options": "\nTemporary\nPermanent\nContractual\nPensionable"
   },
   {
    "fieldname": "salary_scale",
    "fieldtype": "Select",
    "label": "Salary Scale",
-   "options": "A\nB\nC\nD\nE\nF\nG\nH\nI\nJ\nK\nL\nM\nN"
+   "options": "D\nE\nF\nG\nH\nI\nJ\nK\nL\nM\nN"
   },
   {
    "fieldname": "date_of_retirement",
-   "fieldtype": "Data",
+   "fieldtype": "Date",
    "label": "Date Of Retirement"
   },
   {
@@ -191,8 +188,9 @@
   },
   {
    "fieldname": "house_rentedgrz",
-   "fieldtype": "Data",
-   "label": "House (Rented/GRZ)"
+   "fieldtype": "Select",
+   "label": "House (Rented/GRZ)",
+   "options": "\nRented\nGRZ\nOwn"
   },
   {
    "fieldname": "pay_point",
@@ -210,30 +208,76 @@
    "label": "Contact No."
   },
   {
-   "fieldname": "subjects_currently_teaching",
+   "fieldname": "other_qualification",
    "fieldtype": "Data",
-   "label": "Subjects Currently Teaching"
+   "label": "Other Qualification"
   },
   {
    "fieldname": "status",
    "fieldtype": "Select",
    "label": "Employment Status ",
-   "options": "Active\nStudy leave\nVacation leave\nMaternity leave\nUnpaid leave\nRetired"
+   "options": "\nActive\nStudy leave\nVacation leave\nMaternity leave\nUnpaid leave\nRetired\nFired"
+  },
+  {
+   "fieldname": "subjects_trained_to_teach_major",
+   "fieldtype": "Data",
+   "label": "Subjects Trained to Teach Major"
+  },
+  {
+   "fieldname": "column_break_27",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "subjects_trained_to_teach_minor",
+   "fieldtype": "Data",
+   "label": "Subjects Trained to Teach Minor"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "subjects_trained_teaching_section",
+   "fieldtype": "Section Break",
+   "label": "Subjects Trained Teaching"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "subjects_currently_teaching_section",
+   "fieldtype": "Section Break",
+   "label": "Subjects Currently Teaching"
+  },
+  {
+   "fieldname": "subjects_currently_teaching_minor",
+   "fieldtype": "Data",
+   "label": "Subjects Currently Teaching Minor"
+  },
+  {
+   "fieldname": "subjects_currently_teaching_major",
+   "fieldtype": "Data",
+   "label": "Subjects Currently Teaching Major"
+  },
+  {
+   "fieldname": "column_break_31",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "surname",
+   "fieldtype": "Data",
+   "label": "Surname",
+   "reqd": 1
+  },
+  {
+   "fieldname": "ts_no",
+   "fieldtype": "Int",
+   "label": "TS No."
   },
   {
    "fieldname": "man_no",
-   "fieldtype": "Int",
-   "label": "Man No."
-  },
-  {
-   "fieldname": "other_qualification",
    "fieldtype": "Data",
-   "label": "Other Qualification"
+   "label": "Man No."
   }
  ],
  "image_field": "image",
  "links": [],
- "modified": "2021-12-11 20:46:43.951138",
+ "modified": "2022-02-09 11:07:21.345674",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Instructor",

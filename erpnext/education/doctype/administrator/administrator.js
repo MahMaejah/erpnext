@@ -12,7 +12,7 @@ frappe.ui.form.on('Administrator', {
                     <th rowspan="2">OTHERNAMES</th>
                     <th rowspan="2">SEX</th>
                     <th rowspan="2">NRC NO.</th>
-                    <th rowspan="2">MAN NO.</th>
+                    <th rowspan="2">TS NO.</th>
                     <th rowspan="2">EMP NO.</th>
                     <th rowspan="2">DOFA</th>
                     <th rowspan="2">DOPA</th>
@@ -46,7 +46,7 @@ frappe.ui.form.on('Administrator', {
         $("#member_wrapper").css({"overflow":"auto", "width": "100%"})
         
                 frappe.db.get_list('Instructor', {
-                    fields: ['instructor_name','other_name','gender','nrc_no','man_no','employee','date_first_appointed','date_first_appointed_on_the_current_position','date_of_birth','date_of_retirement','position','appointment_status','qualification','other_qualification','institution','salary_scale','subjects','subjects_currently_teaching','house_rentedgrz','pay_point','status','tcz_no','contact_no'],
+                    fields: ['surname','other_name','gender','nrc_no','ts_no','employee','date_first_appointed','date_first_appointed_on_the_current_position','date_of_birth','date_of_retirement','position','appointment_status','qualification','other_qualification','institution','salary_scale','subjects_currently_teaching_major','subjects_currently_teaching_minor','subjects_trained_to_teach_major','subjects_trained_to_teach_minor','house_rentedgrz','pay_point','status','tcz_no','contact_no'],
                     filters: {
                       status: 'active'
                     }
@@ -55,11 +55,11 @@ frappe.ui.form.on('Administrator', {
                     $.each(records, function(i,e){
                         $("#chick").append(
                          `<tr>
-                          <th scope="row">`+e["instructor_name"]+`</th>
+                          <th scope="row">`+e["surname"]+`</th>
                           <td>`+e["other_name"]+`</td>
                           <td>`+e["gender"]+`</td>
                           <td>`+e["nrc_no"]+`</td>
-                          <td>`+e["man_no"]+`</td>
+                          <td>`+e["ts_no"]+`</td>
                           <td>`+e["employee"]+`</td>
                           <td>`+e["date_first_appointed"]+`</td>
                           <td>`+e["date_first_appointed_on_the_current_position"]+`</td>
@@ -71,10 +71,10 @@ frappe.ui.form.on('Administrator', {
                           <td>`+e["other_qualification"]+`</td>
                           <td>`+e["institution"]+`</td>
                           <td>`+e["salary_scale"]+`</td>
-                          <td>`+e["subjects"]+`</td>
-                          <td>`+e["subjects"]+`</td>
-                          <td>`+e["subjects_currently_teaching"]+`</td>
-                          <td>`+e["subjects_currently_teaching"]+`</td>
+                          <td>`+e["subjects_trained_to_teach_major"]+`</td>
+                          <td>`+e["subjects_trained_to_teach_minor"]+`</td>
+                          <td>`+e["subjects_currently_teaching_major"]+`</td>
+                          <td>`+e["subjects_currently_teaching_minor"]+`</td>
                           <td>`+e["house_rentedgrz"]+`</td>
                           <td>`+e["pay_point"]+`</td>
                           <td>`+e["status"]+`</td>

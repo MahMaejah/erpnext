@@ -8,11 +8,14 @@
  "document_type": "Document",
  "engine": "InnoDB",
  "field_order": [
+  "class_teacher",
+  "previous_class",
+  "next_class",
   "academic_year",
-  "group_based_on",
   "student_group_name",
   "max_strength",
   "column_break_3",
+  "group_based_on",
   "academic_term",
   "program",
   "batch",
@@ -22,6 +25,8 @@
   "section_break_6",
   "get_students",
   "students",
+  "current_students",
+  "previous_students",
   "section_break_12",
   "instructors"
  ],
@@ -29,10 +34,8 @@
   {
    "fieldname": "academic_year",
    "fieldtype": "Link",
-   "in_standard_filter": 1,
    "label": "Academic Year",
-   "options": "Academic Year",
-   "set_only_once": 1
+   "options": "Academic Year"
   },
   {
    "fieldname": "group_based_on",
@@ -62,17 +65,19 @@
   {
    "fieldname": "academic_term",
    "fieldtype": "Link",
-   "in_list_view": 1,
-   "in_standard_filter": 1,
    "label": "Academic Term",
    "options": "Academic Term"
   },
   {
+   "allow_in_quick_entry": 1,
    "fieldname": "program",
    "fieldtype": "Link",
    "in_global_search": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
    "label": "Grade",
-   "options": "Program"
+   "options": "Program",
+   "reqd": 1
   },
   {
    "fieldname": "batch",
@@ -85,8 +90,6 @@
    "depends_on": "eval:doc.group_based_on == 'Course'",
    "fieldname": "course",
    "fieldtype": "Link",
-   "in_global_search": 1,
-   "in_standard_filter": 1,
    "label": "Subject",
    "options": "Course"
   },
@@ -111,29 +114,60 @@
    "allow_on_submit": 1,
    "fieldname": "students",
    "fieldtype": "Table",
-   "label": "Students",
+   "label": "Current Students",
    "options": "Student Group Student"
   },
   {
    "fieldname": "section_break_12",
    "fieldtype": "Section Break",
-   "label": "Instructors"
+   "label": "Teachers"
   },
   {
    "fieldname": "instructors",
    "fieldtype": "Table",
-   "label": "Instructors",
+   "label": "Teachers",
    "options": "Student Group Instructor"
   },
   {
    "fieldname": "student_category",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "Student Category",
    "options": "Student Category"
+  },
+  {
+   "fieldname": "next_class",
+   "fieldtype": "Link",
+   "label": "Next Class",
+   "options": "Student Group"
+  },
+  {
+   "fieldname": "previous_class",
+   "fieldtype": "Link",
+   "label": "Previous Class",
+   "options": "Student Group"
+  },
+  {
+   "fieldname": "previous_students",
+   "fieldtype": "Table",
+   "label": "Previous Students",
+   "options": "Student Group Student"
+  },
+  {
+   "fieldname": "current_students",
+   "fieldtype": "Table",
+   "label": "Current Students",
+   "options": "Student Group Student"
+  },
+  {
+   "fieldname": "class_teacher",
+   "fieldtype": "Link",
+   "label": "Class Teacher",
+   "options": "User"
   }
  ],
  "links": [],
- "modified": "2021-08-05 17:09:39.140705",
+ "modified": "2022-02-19 02:42:09.591209",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Student Group",

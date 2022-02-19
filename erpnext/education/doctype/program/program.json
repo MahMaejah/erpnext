@@ -28,7 +28,7 @@
    "fieldname": "program_name",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Subject Name",
+   "label": "Grade Name",
    "reqd": 1,
    "unique": 1
   },
@@ -121,7 +121,7 @@
  ],
  "image_field": "hero_image",
  "links": [],
- "modified": "2021-09-19 11:12:15.581677",
+ "modified": "2021-12-29 15:12:11.322292",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Program",

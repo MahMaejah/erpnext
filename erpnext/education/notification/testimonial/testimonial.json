@@ -1,0 +1,34 @@
+{
+ "attach_print": 0,
+ "channel": "Email",
+ "condition": "doc.release == 1",
+ "creation": "2022-01-13 20:20:38.749359",
+ "days_in_advance": 0,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "Testimonial",
+ "enabled": 1,
+ "event": "Value Change",
+ "idx": 0,
+ "is_standard": 1,
+ "message": "<h3>Testimonial</h3>\r\n\r\n<p>Testimonial for {{ doc.student_name }} is ready. You can dowload it by clicking <a href =\"https://alphazen.xyz/testimonial?testimonial_name={{ doc.name }}\">HERE</a></p>\r\n",
+ "modified": "2022-01-25 09:35:11.200665",
+ "modified_by": "Administrator",
+ "module": "Education",
+ "name": "Testimonial",
+ "owner": "Administrator",
+ "recipients": [
+  {
+   "receiver_by_document_field": "student_email"
+  },
+  {
+   "receiver_by_document_field": "guardian_email"
+  }
+ ],
+ "send_system_notification": 0,
+ "send_to_all_assignees": 0,
+ "sender": "Admin",
+ "sender_email": "teamalphazen@gmail.com",
+ "subject": "Testimonial for {{ doc.student_name }}",
+ "value_changed": "release"
+}

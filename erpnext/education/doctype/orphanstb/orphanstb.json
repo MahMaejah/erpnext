@@ -1,0 +1,70 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2021-10-31 22:46:28.339473",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "grade",
+  "single",
+  "double",
+  "vulnerable",
+  "sponsored"
+ ],
+ "fields": [
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "grade",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Grade",
+   "options": "Program"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "single",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Single"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "double",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Double"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "vulnerable",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Vulnerable"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "sponsored",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Sponsored"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2022-01-25 22:49:31.550595",
+ "modified_by": "Administrator",
+ "module": "Education",
+ "name": "OrphansTB",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

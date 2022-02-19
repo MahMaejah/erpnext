@@ -1,0 +1,37 @@
+{
+ "attach_print": 0,
+ "channel": "Email",
+ "condition": "doc.is_released == 1\r\n",
+ "creation": "2022-01-08 23:45:33.949036",
+ "days_in_advance": 0,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "Report Card",
+ "enabled": 1,
+ "event": "Value Change",
+ "idx": 0,
+ "is_standard": 1,
+ "message": "\r\n<h3>Report Card</h3>\r\n\r\n<p>Report Card for {{ doc.student_name }} is ready. You can dowload it by clicking <a href =\"https://alphazen.xyz/report-card?card={{ doc.name }}\">HERE</a></p>\r\n",
+ "modified": "2022-01-25 09:35:54.149414",
+ "modified_by": "Administrator",
+ "module": "Education",
+ "name": "Report Card Release ",
+ "owner": "Administrator",
+ "recipients": [
+  {
+   "receiver_by_document_field": "student_email"
+  },
+  {
+   "receiver_by_document_field": "guardian_one_email"
+  },
+  {
+   "receiver_by_document_field": "guardian_two_email"
+  }
+ ],
+ "send_system_notification": 0,
+ "send_to_all_assignees": 0,
+ "sender": "Admin",
+ "sender_email": "teamalphazen@gmail.com",
+ "subject": "Report Card For {{ doc.student_name }} ",
+ "value_changed": "is_released"
+}

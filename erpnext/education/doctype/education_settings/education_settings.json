@@ -8,7 +8,6 @@
   "current_academic_year",
   "current_academic_term",
   "attendance_freeze_date",
-  "possible_academic_terms",
   "column_break_4",
   "validate_batch",
   "validate_course",
@@ -106,17 +105,11 @@
    "fieldname": "user_creation_skip",
    "fieldtype": "Check",
    "label": "Skip User creation for new Student"
-  },
-  {
-   "fieldname": "possible_academic_terms",
-   "fieldtype": "Table",
-   "label": "Possible Academic Terms",
-   "options": "Academic TermTB"
   }
  ],
  "issingle": 1,
  "links": [],
- "modified": "2021-12-07 11:48:10.522154",
+ "modified": "2022-01-06 12:49:11.277759",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Education Settings",

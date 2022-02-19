@@ -1,0 +1,30 @@
+{
+ "attach_print": 0,
+ "channel": "Email",
+ "condition": "doc.status == \"Absent\"",
+ "creation": "2022-01-20 10:25:27.913627",
+ "days_in_advance": 0,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "Student Attendance",
+ "enabled": 1,
+ "event": "Submit",
+ "idx": 0,
+ "is_standard": 1,
+ "message": "<h3>Absent Report for {{ doc.student_name }}</h3>\r\n\r\n<p>Please be informed that {{ doc.student_name }} was absent from class on {{ doc.date }}.</p>",
+ "modified": "2022-01-25 09:32:34.256499",
+ "modified_by": "Administrator",
+ "module": "Education",
+ "name": "Absent Notification",
+ "owner": "Administrator",
+ "recipients": [
+  {
+   "receiver_by_document_field": "guardian_email"
+  }
+ ],
+ "send_system_notification": 0,
+ "send_to_all_assignees": 0,
+ "sender": "Admin",
+ "sender_email": "teamalphazen@gmail.com",
+ "subject": "{{ doc.student_name}} was absent from class on {{ doc.date }}"
+}

@@ -6,15 +6,21 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "is_released",
   "student",
   "student_name",
   "year",
   "term",
   "grade",
-  "column_break_6",
   "class_name",
   "attendance",
+  "column_break_6",
   "out_of_attendance",
+  "student_email",
+  "guardian_one_email",
+  "guardian_one_phone_number",
+  "guardian_two_email",
+  "guardian_two_phone_number",
   "amount_unpaid",
   "section_break_11",
   "subjects",
@@ -165,16 +171,66 @@
    "fieldname": "out_of_position_in_grade",
    "fieldtype": "Int",
    "label": "Out of "
+  },
+  {
+   "fetch_from": "student.student_email_id",
+   "fieldname": "student_email",
+   "fieldtype": "Data",
+   "label": "Student Email",
+   "options": "Email"
+  },
+  {
+   "fetch_from": "student.guardian_one_email_id",
+   "fieldname": "guardian_one_email",
+   "fieldtype": "Data",
+   "label": "Guardian One Email",
+   "options": "Email"
+  },
+  {
+   "fetch_from": "student.guardian_one_number",
+   "fieldname": "guardian_one_phone_number",
+   "fieldtype": "Data",
+   "label": "Guardian One Phone Number",
+   "options": "Phone"
+  },
+  {
+   "fetch_from": "student.guardian_two_email",
+   "fieldname": "guardian_two_email",
+   "fieldtype": "Data",
+   "label": "Guardian Two Email",
+   "options": "Email"
+  },
+  {
+   "fetch_from": "student.guardian_two_number",
+   "fieldname": "guardian_two_phone_number",
+   "fieldtype": "Data",
+   "label": "Guardian Two Phone Number",
+   "options": "Phone"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_released",
+   "fieldtype": "Check",
+   "label": "Is Released"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2021-12-23 22:06:44.990140",
+ "modified": "2022-01-11 22:09:31.893586",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Report Card",
  "owner": "Administrator",
  "permissions": [
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Guest",
+   "share": 1
+  },
   {
    "create": 1,
    "delete": 1,
@@ -238,7 +294,7 @@
    "print": 1,
    "read": 1,
    "report": 1,
-   "role": "Guest",
+   "role": "Report Card Viewer",
    "share": 1
   }
  ],

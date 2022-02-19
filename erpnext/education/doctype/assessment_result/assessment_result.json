@@ -21,6 +21,8 @@
   "student_group",
   "assessment_group",
   "grading_scale",
+  "subject_teacher_auto_comments",
+  "class_teacherhead_teacher_auto_comments",
   "section_break_5",
   "details",
   "section_break_8",
@@ -197,11 +199,27 @@
    "fieldtype": "Check",
    "hidden": 1,
    "label": "Compulsory"
+  },
+  {
+   "fetch_from": "assessment_plan.subject_teacher_auto_comments",
+   "fieldname": "subject_teacher_auto_comments",
+   "fieldtype": "Link",
+   "label": "Subject Teacher Auto Comments",
+   "options": "Auto Comments",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "assessment_plan.class_teacherhead_teacher_auto_comments",
+   "fieldname": "class_teacherhead_teacher_auto_comments",
+   "fieldtype": "Link",
+   "label": "Class Teacher/Head Teacher Auto Comments",
+   "options": "Auto Comments",
+   "read_only": 1
   }
  ],
  "is_submittable": 1,
  "links": [],
- "modified": "2021-12-25 09:55:54.999038",
+ "modified": "2022-01-21 09:35:01.697454",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Assessment Result",

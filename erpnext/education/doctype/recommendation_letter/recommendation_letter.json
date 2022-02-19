@@ -6,12 +6,15 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "release",
   "student",
   "student_name",
   "examination_number",
   "column_break_4",
   "date_of_entry",
   "date_of_exit",
+  "student_email",
+  "guardian_email",
   "column_break_11",
   "date",
   "teacher",
@@ -83,11 +86,31 @@
    "fieldname": "date_of_exit",
    "fieldtype": "Date",
    "label": "Date of Exit"
+  },
+  {
+   "fetch_from": "student.student_email_id",
+   "fieldname": "student_email",
+   "fieldtype": "Data",
+   "label": "Student Email",
+   "options": "Email"
+  },
+  {
+   "fetch_from": "student.guardian_one_email_id",
+   "fieldname": "guardian_email",
+   "fieldtype": "Data",
+   "label": "Guardian Email",
+   "options": "Email"
+  },
+  {
+   "default": "0",
+   "fieldname": "release",
+   "fieldtype": "Check",
+   "label": "Release"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2021-12-22 20:46:57.877403",
+ "modified": "2022-01-15 19:46:46.253426",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Recommendation Letter",
@@ -104,6 +127,15 @@
    "role": "System Manager",
    "share": 1,
    "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Recommendation Letter Viewer",
+   "share": 1
   }
  ],
  "sort_field": "modified",

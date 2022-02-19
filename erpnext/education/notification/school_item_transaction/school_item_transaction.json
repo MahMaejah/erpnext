@@ -1,0 +1,28 @@
+{
+ "attach_print": 0,
+ "channel": "System Notification",
+ "condition": "",
+ "creation": "2021-08-15 14:40:31.719599",
+ "days_in_advance": 0,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "Item Transaction",
+ "enabled": 1,
+ "event": "Save",
+ "idx": 0,
+ "is_standard": 1,
+ "message": "Item transaction against {{ doc.full_name }} for {{ doc.item }}",
+ "modified": "2022-01-25 09:37:04.342707",
+ "modified_by": "Administrator",
+ "module": "Education",
+ "name": "School Item Transaction",
+ "owner": "Administrator",
+ "recipients": [
+  {
+   "receiver_by_role": "Instructor"
+  }
+ ],
+ "send_system_notification": 0,
+ "send_to_all_assignees": 0,
+ "subject": "{{ doc.name }} to {{ doc.full_name }}"
+}

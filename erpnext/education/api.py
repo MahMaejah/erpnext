@@ -11,6 +11,290 @@ from frappe.utils import flt, cstr, getdate
 from frappe.email.doctype.email_group.email_group import add_subscribers
 
 @frappe.whitelist()
+def report_card_disbursement(class_name):
+	#Get acdemic year and term
+	year = frappe.db.get_single_value("Education Settings", "current_academic_year")
+	term = frappe.db.get_single_value("Education Settings", "current_academic_term")
+	
+	#Get class doctype
+	class_doc = frappe.get_doc("Student Group", class_name)
+
+	#Get all students in class
+	for student in class_doc.current_students:
+		#Get report cards and trigger release
+		report_card_exists = frappe.db.exists("Report Card", {"student": student.student, "year": year, "term": term})
+
+		if report_card_exists:
+			report_card = frappe.get_doc("Report Card", report_card_exists)
+			report_card.is_released = 1
+			report_card.save()
+
+def assign_next_class(class_doc,student):
+	previous_class_enrollment = frappe.get_doc("Student Group",str(class_doc.next_class))
+	
+	previous_class_enrollment.append("students",{
+	"student": student.student,
+	"student_name": student.student_name,
+	"active": student.active
+	}
+	)
+	#frappe.set_value("Program Enrollmenrt",student_enrollment,'student_batch_name',next_class.b
+	previous_class_enrollment.save()
+
+@frappe.whitelist()
+def migrate_forward():
+	
+	groupList = frappe.get_all("Student Group")
+	enrollmentList = frappe.get_all('Program Enrollment')
+	GradeList = []
+	studentEnrolls = []
+
+
+	for group in groupList:
+		doc = frappe.get_doc("Student Group",group['name'])
+		GradeList.append(int(str(doc.program)[6:].replace(" ","")))
+	for enroll in enrollmentList:
+		doc = frappe.get_doc("Program Enrollment",enroll['name'])
+		studentEnrolls.append(doc)
+	
+	#? shift year and term
+
+	eduSettings = frappe.get_single("Education Settings")	
+	frappe.msgprint(str(eduSettings.current_academic_year))
+	#? academic year
+	new_academic_year = frappe.new_doc("Academic Year")
+	current_year = str(eduSettings.current_academic_year)
+	# to_year = str(current_year)[5:7]			
+	# from_year = str(current_year)[2:4]			
+	# new_to_year = str(int(to_year)+1)			
+	# new_academic_year.academic_year_name = str(eduSettings.current_academic_year).replace(to_year,new_to_year).replace(from_year,to_year)
+	splitYear = str(current_year).split('-')
+	new_academic_year.academic_year_name = f'{int(splitYear[0])+1}-{int(splitYear[1])+1}'
+	new_academicYear = f'{int(splitYear[0])+1}-{int(splitYear[1])+1}'
+	# # new_academic_year.year_start_date = f"01-01-{str(new_academic_year.academic_year_name)[0:4]}"
+	# new_academic_year.year_end_date = f"31-12-{str(new_academic_year.academic_year_name)[0:4]}"
+	exists =  frappe.db.exists("Academic Year",new_academic_year)
+	eduSettings.current_academic_year = new_academic_year.academic_year_name
+	if exists:
+		name = new_academic_year.academic_year_name
+		new_academic_year = frappe.get_doc('Academic Year',name)
+	else:
+		try:
+			new_academic_year.insert()
+		except:
+			frappe.msgprint("---")
+	
+
+	frappe.msgprint(str(eduSettings.current_academic_year))
+
+	termName = ""
+	#? academic term
+	for i in range(1,4):
+		termDoc = frappe.new_doc('Academic Term')
+		termDoc.academic_year = new_academic_year.academic_year_name
+		termDoc.term_name = f'Term {i}'
+		termDoc.title = f'{termDoc.academic_year} ({termDoc.term_name})'
+		term_exists = frappe.db.exists('Academic Term',termDoc.title)
+		if i == 1:
+			termName = f'{termDoc.academic_year} ({termDoc.term_name})'
+			eduSettings.current_academic_term = termDoc.title
+			frappe.msgprint(str(eduSettings.current_academic_term))
+		if term_exists:
+			continue
+		else:
+			termDoc.insert()
+
+	eduSettings.save()
+	#? end shifting year
+	GradeList.sort(reverse=True)
+	for gradeNum in GradeList:
+		for group in groupList:
+			class_doc = frappe.get_doc("Student Group", group['name'])
+			class_doc.academic_term = termName
+			class_doc.academic_year = new_academicYear
+			if str(gradeNum) in str(class_doc.program):
+				groupList.remove(group)
+				frappe.msgprint(f'Program {class_doc.program}')
+				#class_doc.previous_students = class_doc.students
+				class_doc.previous_students.clear()
+				for student in class_doc.current_students:
+					class_doc.append("previous_students",{
+						"student": student.student,
+						"student_name": student.student_name,
+						"active": student.active
+						})
+					
+					if class_doc.next_class != None:
+						student_enrollment = None
+						for stu in studentEnrolls:
+							if stu.student == student.student:
+								student_enrollment = stu
+								break
+						if student_enrollment:
+							frappe.msgprint("Enrollment: " + str(student_enrollment))
+							next_class = frappe.get_doc("Student Group",str(class_doc.next_class))
+							frappe.msgprint("Next Class: " + str(next_class.batch))
+							frappe.msgprint(f'Previous enrollment: {student_enrollment.student_batch_name}')
+							student_enrollment.student_batch_name=next_class.batch
+							frappe.msgprint(f'New enrollment: {student_enrollment.student_batch_name}')
+							student_enrollment.save()
+							student.save()
+							frappe.db.commit()
+
+							enrolled = frappe.db.exists("Program Enrollment", {
+								"student_batch_name": student_enrollment.student_batch_name
+							})
+							# assign_next_class(class_doc,student)
+							# frappe.msgprint("Enrolled is: " + str(enrolled))
+
+							previous_class_enrollment = frappe.get_doc("Student Group",str(class_doc.next_class))
+							
+							previous_class_enrollment.append("current_students",{
+							"student": student.student,
+							"student_name": student.student_name,
+							"active": student.active
+							}
+							)
+							#frappe.set_value("Program Enrollmenrt",student_enrollment,'student_batch_name',next_class.batch)
+
+							previous_class_enrollment.save()
+					
+				class_doc.current_students.clear()
+				class_doc.save()
+				frappe.msgprint(f'{len(class_doc.previous_students)}')
+
+
+				class_doc.save()
+				"""
+				else:
+					if len(class_doc.previous_students) > 0:
+						for student in class_doc.previous_students:
+							class"""
+	
+
+@frappe.whitelist()
+def migrate_reverse():
+	
+	groupList = frappe.get_all("Student Group")
+	enrollmentList = frappe.get_all('Program Enrollment')
+	GradeList = []
+	studentEnrolls = []
+
+
+	for group in groupList:
+		doc = frappe.get_doc("Student Group",group['name'])
+		GradeList.append(int(str(doc.program)[6:].replace(" ","")))
+	for enroll in enrollmentList:
+		doc = frappe.get_doc("Program Enrollment",enroll['name'])
+		studentEnrolls.append(doc)
+		#? shift year and term
+
+	eduSettings = frappe.get_single("Education Settings")	
+	frappe.msgprint(str(eduSettings.current_academic_year))
+	#? academic year
+	new_academic_year = frappe.new_doc("Academic Year")
+	current_year = str(eduSettings.current_academic_year)
+	# to_year = str(current_year)[5:7]			#22
+	# from_year = str(current_year)[2:4]			#21
+	# new_from_year = str(int(from_year)-1)			#20
+	# ogFront = str(current_year)[0:2]
+	splitYear = str(current_year).split('-')
+	new_academic_year.academic_year_name = f'{int(splitYear[0])-1}-{int(splitYear[1])-1}'
+	new_academicYear = f'{int(splitYear[0])-1}-{int(splitYear[1])-1}'
+	# new_academic_year.year_start_date = f"01-01-{str(new_academic_year.academic_year_name)[0:4]}"
+	# new_academic_year.year_end_date = f"31-12-{str(new_academic_year.academic_year_name)[0:4]}"
+	exists =  frappe.db.exists("Academic Year",new_academic_year)
+	eduSettings.current_academic_year = new_academic_year.academic_year_name
+	if exists:
+		name = new_academic_year.academic_year_name
+		new_academic_year = frappe.get_doc('Academic Year',name)
+	else:
+		try:
+			new_academic_year.insert()
+		except:
+			frappe.msgprint("---")
+	
+
+	frappe.msgprint(str(eduSettings.current_academic_year))
+	termName = ""
+
+	#? academic term
+	for i in range(1,4):
+		termDoc = frappe.new_doc('Academic Term')
+		termDoc.academic_year = new_academic_year.academic_year_name
+		termDoc.term_name = f'Term {i}'
+		termDoc.title = f'{termDoc.academic_year} ({termDoc.term_name})'
+		term_exists = frappe.db.exists('Academic Term',termDoc.title)
+		
+		if i == 1:
+			termName = f'{termDoc.academic_year} ({termDoc.term_name})'
+			eduSettings.current_academic_term = termDoc.title
+			frappe.msgprint(str(eduSettings.current_academic_term))
+		if term_exists:
+			continue
+		else:
+			termDoc.insert()
+
+	eduSettings.save()
+	# ? end shifting
+	GradeList.sort(reverse=False)
+	for gradeNum in GradeList:
+		for group in groupList:
+			class_doc = frappe.get_doc("Student Group", group['name'])
+			class_doc.academic_term = termName
+			class_doc.academic_year = new_academicYear
+			if str(gradeNum) in str(class_doc.program):
+				groupList.remove(group)
+				frappe.msgprint(f'Program {class_doc.program}')
+				#class_doc.previous_students = class_doc.students
+				class_doc.current_students.clear()
+				for student in class_doc.previous_students:
+					class_doc.append("current_students",{
+						"student": student.student,
+						"student_name": student.student_name,
+						"active": student.active
+						})
+					
+					if class_doc.previous_class != None:
+						student_enrollment = None
+						for stu in studentEnrolls:
+							if stu.student == student.student:
+								student_enrollment = stu
+								break
+						if student_enrollment:
+							frappe.msgprint("Enrollment: " + str(student_enrollment))
+							previous_class = frappe.get_doc("Student Group",str(class_doc.previous_class))
+							frappe.msgprint("Next Class: " + str(previous_class.batch))
+							frappe.msgprint(f'Previous enrollment: {student_enrollment.student_batch_name}')
+							student_enrollment.student_batch_name=previous_class.batch
+							frappe.msgprint(f'New enrollment: {student_enrollment.student_batch_name}')
+							student_enrollment.save()
+							student.save()
+							frappe.db.commit()
+							# assign_next_class(class_doc,student)
+							# frappe.msgprint("Enrolled is: " + str(enrolled))
+
+							previous_class_enrollment = frappe.get_doc("Student Group",str(class_doc.previous_class))
+							
+							previous_class_enrollment.append("previous_students",{
+							"student": student.student,
+							"student_name": student.student_name,
+							"active": student.active
+							}
+							)
+							#frappe.set_value("Program Enrollmenrt",student_enrollment,'student_batch_name',next_class.batch)
+
+							previous_class_enrollment.save()
+					
+				class_doc.previous_students.clear()
+				class_doc.save()
+				frappe.msgprint(f'{len(class_doc.previous_students)}')
+
+
+				class_doc.save()
+	
+
+@frappe.whitelist()
 def get_current_academic_year():
 	current_year = frappe.db.get_single_value("Education Settings", "current_academic_year")
 	current_year_analysis = frappe.db.sql("""SELECT COUNT(points_in_best_6), class_name, points_in_best_6, year, term FROM `tabReport Card` WHERE year = %s GROUP BY points_in_best_6, class_name""", (current_year), as_dict=1)

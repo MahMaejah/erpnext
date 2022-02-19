@@ -40,7 +40,7 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Type",
-   "options": "General\nPregnancy\nDeath\nRe-Entry\nDrop Out"
+   "options": "\nGeneral\nPregnancy\nDeath\nRe-Entry\nDrop Out"
   },
   {
    "fieldname": "date",
@@ -89,7 +89,7 @@
   }
  ],
  "links": [],
- "modified": "2021-12-09 12:05:24.932031",
+ "modified": "2021-12-30 09:03:54.671203",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Student Log",

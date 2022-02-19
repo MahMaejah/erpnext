@@ -7,11 +7,11 @@ class SchoolDepartment(Document):
 	def before_save(self):
 		exists = frappe.db.exists("Project",{"project_name": self.name})
 		if exists:
-			frappe.msgprint("exist")
+			# frappe.msgprint("exist")
 			for item in self.activity_list:
 				check = frappe.db.exists("Task",{"subject": item.activity,"project": exists,"exp_start_date": item.from_date,"exp_end_date": item.to_date,"priority": item.priority})
 				if not check:
-					frappe.msgprint(str(item.activity))
+					# frappe.msgprint(str(item.activity))
 					doc = frappe.get_doc({
 					"doctype": "Task",
 					"subject": item.activity,
@@ -24,7 +24,7 @@ class SchoolDepartment(Document):
 					doc.insert()
 
 		else:
-			frappe.msgprint("does not exist")
+			# frappe.msgprint("does not exist")
 			doc = frappe.get_doc({
 			"doctype": "Project",
 			"title": self.name,
@@ -36,7 +36,7 @@ class SchoolDepartment(Document):
 			for item in self.activity_list:
 				check = frappe.db.exists("Task",{"subject": item.activity,"project": exists,"exp_start_date": item.from_date,"exp_end_date": item.to_date,"priority": item.priority})
 				if not check:
-					frappe.msgprint(str(item.activity))
+					# frappe.msgprint(str(item.activity))
 					doc = frappe.get_doc({
 					"doctype": "Task",
 					"subject": item.activity,

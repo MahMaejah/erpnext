@@ -2,23 +2,42 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('Testimonial', {
-	refresh: function(frm) {
-		var chrts=[
-		    "Character and general behavior",
-            "Initiative, common sense and leadership quality",
-            "Sense of duty and punctuality",
-            "Co-operation with others",
-            "Attitude towards work",
-            "Intelligence and judgement",
-            "Dependability and Reliability"
-		    ];
-		    //console.log(frm.doc.testimonial_tb.length);
-			if(frm.doc.testimonial_tb.length <=1){
-				for(let td of chrts){
-				let row = frm.add_child('testimonial_tb',{
-					characters: td
-				});
-			}
+	characters_template: function(frm) {
+		if (frm.doc.characters_template != null ){
+			frappe.db.exists("Testimonial Characters Template",frm.doc.characters_template)
+				.then(exists => {
+					console.log(exists)
+					if (exists == true){
+						console.log("Running")
+						frappe.db.get_doc("Testimonial Characters Template",frm.doc.characters_template)
+						.then(doc => {
+							var ch = []
+							var chrts = doc.characters
+							$.each(chrts,function(i,d){
+								var ch = d.characters
+								console.log(ch)
+								let row = frm.add_child('testimonial_tb',{
+									characters: ch
+								});
+								frm.refresh_field('testimonial_tb');
+							})
+						})
+					}
+				})
 		}
+		
+		// frappe.db.get_doc("Testimonial Characters Template",frm.doc.characters_template)
+		// 	.then(doc => {
+		// 		var ch = []
+		// 		var chrts = doc.characters
+		// 		$.each(chrts,function(i,d){
+		// 			var ch = d.characters
+		// 			console.log(ch)
+		// 			let row = frm.add_child('testimonial_tb',{
+		// 				characters: ch
+		// 			});
+		// 			frm.refresh_field('testimonial_tb');
+		// 		})
+		// 	})
 	}
 });

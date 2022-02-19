@@ -12,21 +12,14 @@ from erpnext.education.api import get_assessment_details
 from frappe.utils.csvutils import getlink
 import erpnext.education
 
+doc_name = ""
+
 class AssessmentResult(Document):
 	def before_save(self):
-		mid_term_score = 0.00
-		end_term_score = 0.00
+		# self.comment = "Null"
+		global doc_name
+		doc_name = self.name
 
-		# Check mid-term
-		mid_term_exists = False
-		for criteria in self.details:
-			if criteria.assessment_criteria.lower() == "Mid Term".lower():
-				mid_term_exists = True
-				mid_term_score = criteria.score
-
-			elif criteria.assessment_criteria.lower() == "End of Term".lower():
-				end_term_score = criteria.score
-		
 		#Grading Scale Comments (Auto comments)
 		grading_scale = frappe.get_doc("Grading Scale", self.grading_scale)
 		for interval in grading_scale.intervals:
@@ -40,8 +33,25 @@ class AssessmentResult(Document):
 		
 		if exists:
 			#Call report card validation
-			validate_report_cards(rcnformat, self.course, mid_term_score, end_term_score, self.total_score, self.grade, self.comment)
+			validate_report_cards(rcnformat, self.course, self.total_score, self.grade, self.comment)
 
+		
+		
+
+		"""else:
+			#Create card if it doesn't exist
+			rc = frappe.get_doc({
+					"doctype": "Report Card",
+					"student": self.student,
+					"grade": self.program,
+					"class_name": self.student_group,
+					"year": self.academic_year,
+					"term": self.academic_term
+			})
+			rc.insert()
+			#Call report card validation
+			validate_report_cards(rcnformat, self.course, self.total_score, self.grade, self.comment)"""
+			
 		get_scores_for_previous_term(self.student, self.program, self.student_group, self.course, rcnformat)
 		
 	def validate(self):
@@ -79,46 +89,41 @@ class AssessmentResult(Document):
 
 # AUTO_COMMENTS
 def add_auto_comments(current_report_card):
-	# Teachers Comments on Subjects
+	
 	# Report Card Being Commented
 	current_report_card = frappe.get_doc("Report Card", current_report_card)
 	points = current_report_card.points_in_best_6
+	# is_senior = frappe.get_value("Program", current_report_card.grade, "senior_secondary")
+	assessment_result = frappe.get_doc("Assessment Result", doc_name)
+	# frappe.msgprint(f'{doc_name}')
+	comments = frappe.get_doc("Auto Comments",assessment_result.subject_teacher_auto_comments )
+	# frappe.msgprint(f'{assessment_result.subject_teacher_auto_comments}')
+	comments1 = frappe.get_doc("Auto Comments",assessment_result.class_teacherhead_teacher_auto_comments)
+	# Teachers Comments on Subjects
 
-	# if sub_score >= 85:
-	# 	print("Excellent Results")
-	# elif (sub_score >= 75) and (sub_score < 85):
-	# 	print("Very Good Results")
-	# elif sub_score >= 60 and sub_score < 75:
-	# 	print("Good Results")
-	# elif sub_score >= 50 and sub_score < 60:
-	# 	print("Fair Results")	
-	# elif sub_score >= 0 and sub_score < 50:
-	# 	print("fail")
-	
+	for d in current_report_card.subjects:
+		sub_score = d.score
+		#frappe.msgprint(f'{sub_score}')
+		if d.teachers_comment == "":
+			for r in comments.auto_comment_intervals:
+				# frappe.msgprint(f'{len(comments.auto_comment_intervals)}')
+				if r.lower_limit <= sub_score and sub_score <= r.upper_limit:
+					d.teachers_comment = str(r.comment)
+					frappe.msgprint(f'{d.teachers_comment}')
+					frappe.db.sql(""" UPDATE `tabReport Card Subject` SET teachers_comment = %s WHERE name = %s """, (d.teachers_comment, current_report_card))
+
 	# Head Teachers/Class Teachers Comments on overall points
+		if current_report_card.class_teacher_comment == "":
+			for r in comments1.auto_comment_intervals:
+				if r.lower_limit <= points and points <= r.upper_limit:
+					frappe.msgprint("yes...")
+					current_report_card.class_teacher_comment = r.comment
+					# frappe.msgprint(f'{current_report_card.class_teacher_comment}')
+			current_report_card.save()
 	
-	if current_report_card.class_teacher_comment == "":
-		frappe.msgprint("i am called")
-		if points >= 6 and points < 10:
-			current_report_card.class_teacher_comment = "Excellent Results"
-			#print("Excellent Results")
-		elif points >= 10 and points < 15:
-			current_report_card.class_teacher_comment = "Very Good Results"
-			#print("Very Good Results")
-		elif points >= 15 and points < 25:
-			current_report_card.class_teacher_comment = "Good Results"
-			#print("Good Results")
-		elif points >= 25 and points < 33:
-			current_report_card.class_teacher_comment = "Fair Results"
-			#print("Fair Results")
-		elif points >= 33:
-			current_report_card.class_teacher_comment = "Work Hard"
-			#print("Work Hard")
-		current_report_card.save()
-		
 
 
-def validate_report_cards(rcname, subj, mid_term_score, end_term_score, total_score, grade, comment):
+def validate_report_cards(rcname, subj, total_score, grade, comment):
 	
 	report_card = frappe.get_doc("Report Card", rcname)
 	#frappe.msgprint("Get report card doctype")
@@ -130,7 +135,7 @@ def validate_report_cards(rcname, subj, mid_term_score, end_term_score, total_sc
 	})
 
 	if subject_entry_exists:
-		validate_report_card_details(rcname, subj, mid_term_score, end_term_score, total_score, grade, comment)
+		validate_report_card_details(rcname, subj, total_score, grade, comment)
 
 	else:
 		#Add entry to child table if it doesn't exist
@@ -138,10 +143,10 @@ def validate_report_cards(rcname, subj, mid_term_score, end_term_score, total_sc
 			"subject": subj
 		})
 		row.insert()
-		validate_report_card_details(rcname, subj, mid_term_score, end_term_score, total_score, grade, comment)
+		validate_report_card_details(rcname, subj, total_score, grade, comment)
 
 @frappe.whitelist()
-def validate_report_card_details(rcname , rcsubject, mid_term_score, end_term_score, rctotal_score, grade, grade_comment):
+def validate_report_card_details(rcname , rcsubject, rctotal_score, grade, grade_comment):
 	#Report card being updated
 	r_card = frappe.get_doc("Report Card", rcname)
 	#Update number of subjects recorded
@@ -149,8 +154,6 @@ def validate_report_card_details(rcname , rcsubject, mid_term_score, end_term_sc
 
 	for subject in r_card.subjects:
 		if subject.subject == rcsubject:
-			subject.mid_term = mid_term_score
-			subject.end_of_term = end_term_score
 			subject.score = rctotal_score
 			subject.grade = grade
 			subject.grade_comment = grade_comment
@@ -371,9 +374,12 @@ def get_scores_for_previous_term(student, grade, class_name, subject,current_rep
 	current_term_name = frappe.db.get_value('Academic Term',current_term, 'term_name')
 	current_term_number = current_term_name[5]
 	previous_academic_term = 0
-	previous_academic_year_number1 = int(current_academic_year[3])-1
-	previous_academic_year_number2 = int(current_academic_year[6])-1
-	previous_academic_year = str(current_academic_year[0:3]) + str(previous_academic_year_number1)+ "-" + str(current_academic_year[5]) + str(previous_academic_year_number2) 
+	previous_academic_year_number1 = int(current_academic_year[2:4])-1
+	#2021-22
+	#0123456
+	previous_academic_year_number2 = int(current_academic_year[5:])-1
+	previous_academic_year =current_academic_year[0:2]+str(previous_academic_year_number1) + "-" + previous_academic_year_number2 
+	 #str(current_academic_year[0:3]) + str(previous_academic_year_number1)+ "-" + str(current_academic_year[5]) + str(previous_academic_year_number2) 
 	#frappe.msgprint(str(previous_academic_term))
 	previous_academic_term = str(current_academic_year) + " (Term " + str(int(current_term_number)-1) + ")"
 	
@@ -482,7 +488,7 @@ def calculate_subject_score_average(subject_data):
 	for score in subject_data:
 		score_sum += score["score"]
 		num_of_elements += 1
-	score_average = score_sum / num_of_elements
+	score_average = int(round(score_sum / num_of_elements))
 	for subject_db_name in subject_data:
 		frappe.db.sql(""" UPDATE `tabReport Card Subject` SET average=%s WHERE name=%s""", (score_average, subject_db_name["subj_name"]))
 

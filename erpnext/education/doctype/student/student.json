@@ -16,11 +16,18 @@
   "middle_name",
   "last_name",
   "user",
-  "column_break_4",
-  "naming_series",
   "student_email_id",
   "student_mobile_number",
+  "column_break_4",
+  "naming_series",
   "joining_date",
+  "grade",
+  "class",
+  "examination_number",
+  "orphan",
+  "type_of_orphan",
+  "special_education_needs",
+  "vulnerable",
   "image",
   "section_break_7",
   "date_of_birth",
@@ -38,6 +45,12 @@
   "state",
   "section_break_18",
   "guardians",
+  "section_break_38",
+  "guardian_one_email_id",
+  "guardian_one_number",
+  "column_break_41",
+  "guardian_two_email",
+  "guardian_two_number",
   "section_break_20",
   "siblings",
   "exit",
@@ -149,7 +162,8 @@
    "fieldname": "gender",
    "fieldtype": "Link",
    "label": "Gender",
-   "options": "Gender"
+   "options": "Gender",
+   "reqd": 1
   },
   {
    "fieldname": "nationality",
@@ -181,6 +195,7 @@
   {
    "fieldname": "pincode",
    "fieldtype": "Data",
+   "hidden": 1,
    "label": "Pincode"
   },
   {
@@ -190,12 +205,12 @@
   {
    "fieldname": "city",
    "fieldtype": "Data",
-   "label": "City"
+   "label": "Town"
   },
   {
    "fieldname": "state",
    "fieldtype": "Data",
-   "label": "State"
+   "label": "Province"
   },
   {
    "fieldname": "section_break_18",
@@ -258,11 +273,87 @@
    "fieldtype": "Check",
    "in_list_view": 1,
    "label": "Cleared"
+  },
+  {
+   "default": "0",
+   "fieldname": "special_education_needs",
+   "fieldtype": "Check",
+   "label": "Special Education Needs"
+  },
+  {
+   "default": "0",
+   "fieldname": "vulnerable",
+   "fieldtype": "Check",
+   "label": "Vulnerable"
+  },
+  {
+   "default": "0",
+   "fieldname": "orphan",
+   "fieldtype": "Check",
+   "label": "Orphan"
+  },
+  {
+   "fieldname": "guardian_one_number",
+   "fieldtype": "Data",
+   "label": "Guardian One Number"
+  },
+  {
+   "fieldname": "guardian_two_email",
+   "fieldtype": "Data",
+   "label": "Guardian Two Email"
+  },
+  {
+   "fieldname": "guardian_two_number",
+   "fieldtype": "Data",
+   "label": "Guardian Two Number"
+  },
+  {
+   "fieldname": "guardian_one_email_id",
+   "fieldtype": "Data",
+   "label": "Guardian One Email"
+  },
+  {
+   "depends_on": "eval:doc.orphan == true",
+   "fieldname": "type_of_orphan",
+   "fieldtype": "Select",
+   "label": "Type Of Orphan",
+   "options": "\nSingle Orphaned\nDouble Orphaned"
+  },
+  {
+   "fieldname": "grade",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Grade ",
+   "options": "Program"
+  },
+  {
+   "fieldname": "examination_number",
+   "fieldtype": "Data",
+   "label": "Examination Number"
+  },
+  {
+   "depends_on": "grade",
+   "fieldname": "class",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Class",
+   "options": "Student Group",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_38",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_41",
+   "fieldtype": "Column Break"
   }
  ],
  "image_field": "image",
  "links": [],
- "modified": "2021-08-14 09:41:19.472882",
+ "modified": "2022-02-19 12:23:12.487615",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Student",

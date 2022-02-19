@@ -9,6 +9,9 @@
  "field_order": [
   "administrator_name",
   "head_of_department_hod",
+  "column_break_3",
+  "hod_full_name",
+  "section_break_5",
   "school_profile",
   "minutes",
   "section_break_4",
@@ -23,8 +26,7 @@
    "fieldname": "head_of_department_hod",
    "fieldtype": "Link",
    "label": "Head of Department (H.O.D)",
-   "options": "Instructor",
-   "reqd": 1
+   "options": "Instructor"
   },
   {
    "fieldname": "school_profile",
@@ -77,11 +79,25 @@
    "label": "Administrator Name",
    "reqd": 1,
    "unique": 1
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "head_of_department_hod.instructor_name",
+   "fieldname": "hod_full_name",
+   "fieldtype": "Read Only",
+   "label": "H.O.D Full Name"
+  },
+  {
+   "fieldname": "section_break_5",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2021-11-12 22:45:04.314672",
+ "modified": "2022-01-31 21:33:27.317065",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Administrator",
@@ -100,7 +116,6 @@
    "write": 1
   },
   {
-   "delete": 1,
    "email": 1,
    "export": 1,
    "print": 1,
@@ -111,7 +126,6 @@
    "write": 1
   },
   {
-   "delete": 1,
    "email": 1,
    "export": 1,
    "print": 1,

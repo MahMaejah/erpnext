@@ -11,6 +11,7 @@
   "student",
   "student_name",
   "student_mobile_number",
+  "guardian_email",
   "course_schedule",
   "student_group",
   "column_break_3",
@@ -113,12 +114,19 @@
    "fieldname": "academic_term",
    "fieldtype": "Data",
    "label": "Academic Term"
+  },
+  {
+   "fetch_from": "student.guardian_one_email_id",
+   "fieldname": "guardian_email",
+   "fieldtype": "Read Only",
+   "label": "Guardian Email",
+   "options": "Email"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2021-11-26 15:39:37.950155",
+ "modified": "2022-01-20 10:24:36.090133",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Student Attendance",
