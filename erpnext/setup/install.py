@@ -44,11 +44,71 @@ def set_education_defaults():
 	insert_assessment_criteria()
 	insert_grades()
 	# insertAcadmicYearDocType()
+	extendAcadmicYearDocType()
 	insert_administrators()
 	insertAutoComments()
 	insert_school_departments()
 	insert_guidance_and_cancelling()
 
+@frappe.whitelist()
+def extendAcadmicYearDocType():
+	'''' Grading Scale-Percentage Grading
+		3. Academic year and Term Format has to be strict
+		4. Assesment Criteria - End of Term and Midterm
+		5. Autocomments inculding the data inside the doctype'''
+
+	current_year = datetime.datetime.now().year
+	
+	current_year_pre = int(str(current_year)[0:2])
+
+	current_year_sur = int(str(current_year)[2:])
+
+	end_year = current_year_sur + 51
+	for x in range(current_year_sur,end_year):
+		used_current_year = current_year_pre;
+		used_x = x
+		if x >= 100:
+			used_current_year += 1
+			used_x = x -100;
+
+		new_academic_year = frappe.new_doc("Academic Year")
+		new_academic_year.academic_year_name = str(used_current_year)+str(used_x)+'-'+str(used_x+1 if used_x + 1 <100 else x-100)
+		new_academic_year.year_start_date = f'{str(new_academic_year.academic_year_name)[0:4]}-01-01'
+		new_academic_year.year_end_date = f'{str(new_academic_year.academic_year_name)[0:4]}-12-31'
+	
+		try:
+			exists =  frappe.db.exists("Academic Year",new_academic_year.academic_year_name)
+			if exists:
+			# name = new_academic_year.academic_year_name
+			# new_academic_year = frappe.get_doc('Academic Year',name)
+				new_acadamic_year = frappe.get_doc("Academic Year",new_academic_year.academic_year_name)
+				new_academic_year.year_start_date = f'{str(new_academic_year.academic_year_name)[0:4]}-01-01'
+				new_academic_year.year_end_date = f'{str(new_academic_year.academic_year_name)[0:4]}-12-31'
+				new_academic_year.save()
+				frappe.msgprint("exists")
+				continue
+			else:
+				new_academic_year.insert()
+		except:
+			continue
+			#try:
+			# except:
+			# 	frappe.msgprint("---")
+
+
+	 	#new_academic_year.save()
+		for i in range(1,4):
+			termDoc = frappe.new_doc('Academic Term')
+			termDoc.academic_year = new_academic_year.academic_year_name
+			termDoc.term_name = f'Term {i}'
+			termDoc.title = f'{termDoc.academic_year} ({termDoc.term_name})'
+			term_exists = frappe.db.exists('Academic Term',termDoc.title)
+			if term_exists:
+				continue
+			else:
+				termDoc.insert()
+
+@frappe.whitelist()
 def insertAcadmicYearDocType():
 	'''' Grading Scale-Percentage Grading
 		3. Academic year and Term Format has to be strict
@@ -60,23 +120,38 @@ def insertAcadmicYearDocType():
 	current_year_sur = int(str(current_year)[2:])
 
 	for x in range(current_year_sur,51):
-		new_academic_year = frappe.new_doc("Academic Year")
-		new_academic_year.academic_year_name = str(current_year_pre)+str(x)+'-'+str(x+1)
-		new_academic_year.year_start_date = f"01-01-{str(new_academic_year.academic_year_name)[0:4]}"
-		new_academic_year.year_end_date = f"31-12-{str(new_academic_year.academic_year_name)[0:4]}"
-		try:
-			exists =  frappe.db.exists("Academic Year",new_academic_year)
-			if exists:
-				name = new_academic_year.academic_year_name
-				new_academic_year = frappe.get_doc('Academic Year',name)
-			else:
-				try:
-					new_academic_year.insert()
-				except:
-					frappe.msgprint("---")
-		except:
-				new_academic_year.insert()
+		used_current_year = current_year_pre;
+		used_x = x
+		if x >= 100:
+			used_current_year += 1
+			used_x = x -100;
 
+		new_academic_year = frappe.new_doc("Academic Year")
+		new_academic_year.academic_year_name = str(used_current_year)+str(used_x)+'-'+str(used_x+1 if used_x + 1 <100 else x-100)
+		new_academic_year.year_start_date = f'{str(new_academic_year.academic_year_name)[0:4]}-01-01'
+		new_academic_year.year_end_date = f'{str(new_academic_year.academic_year_name)[0:4]}-12-31'
+	
+		try:
+			exists =  frappe.db.exists("Academic Year",new_academic_year.academic_year_name)
+			if exists:
+			# name = new_academic_year.academic_year_name
+			# new_academic_year = frappe.get_doc('Academic Year',name)
+				new_acadamic_year = frappe.get_doc("Academic Year",new_academic_year.academic_year_name)
+				new_academic_year.year_start_date = f'{str(new_academic_year.academic_year_name)[0:4]}-01-01'
+				new_academic_year.year_end_date = f'{str(new_academic_year.academic_year_name)[0:4]}-12-31'
+				new_academic_year.save()
+				frappe.msgprint("exists")
+				continue
+			else:
+				new_academic_year.insert()
+		except:
+			continue
+			#try:
+			# except:
+			# 	frappe.msgprint("---")
+
+
+	 	#new_academic_year.save()
 		for i in range(1,4):
 			termDoc = frappe.new_doc('Academic Term')
 			termDoc.academic_year = new_academic_year.academic_year_name

@@ -15,10 +15,15 @@ import erpnext.education
 doc_name = ""
 
 class AssessmentResult(Document):
+	def after_insert(self):
+		add_auto_comments(f'{self.student}-{self.program}-{self.student_group}-{self.academic_year}-{self.academic_term}')
+
 	def before_save(self):
 		# self.comment = "Null"
 		global doc_name
 		doc_name = self.name
+
+		#frappe.throw(f'Doc name is: {self.name}')
 
 		#Grading Scale Comments (Auto comments)
 		grading_scale = frappe.get_doc("Grading Scale", self.grading_scale)
@@ -89,11 +94,16 @@ class AssessmentResult(Document):
 
 # AUTO_COMMENTS
 def add_auto_comments(current_report_card):
+	#assessment_result = None
 	
 	# Report Card Being Commented
 	current_report_card = frappe.get_doc("Report Card", current_report_card)
 	points = current_report_card.points_in_best_6
 	# is_senior = frappe.get_value("Program", current_report_card.grade, "senior_secondary")
+	
+	if not frappe.db.exists("Assessment Result", doc_name):
+		return
+
 	assessment_result = frappe.get_doc("Assessment Result", doc_name)
 	# frappe.msgprint(f'{doc_name}')
 	comments = frappe.get_doc("Auto Comments",assessment_result.subject_teacher_auto_comments )
@@ -177,17 +187,28 @@ def calculate_points(points_card_name):
 	optional_subjects = []
 	selected_optional_subjects = []
 
+	#For debugging
+	compulsory_subject_names = []
+	optional_subject_names = []
+	points_added = []
+	compulsory_subject_points = []
+
 	#Get number of compulsory subjects
 	num_of_compulsory_subjects = 0
 
 	for subject in points_card_name.subjects:
 		if subject.compulsory:
-			points += subject.grade
-			if not is_senior:
+			compulsory_subject_names.append(subject.subject)
+
+			if is_senior:
+				points += subject.grade
+			else:
 				points += subject.score
+				compulsory_subject_points.append(subject.score)
 
 			num_of_compulsory_subjects += 1
 		else:
+			optional_subject_names.append(subject.subject)
 			optional_subjects.append(subject.grade)
 			if not is_senior:
 				optional_subjects.append(subject.score)
@@ -200,19 +221,25 @@ def calculate_points(points_card_name):
 
 	#frappe.msgprint(str(is_senior))
 
+	compulsory_subject_points.append(points)
+
 	times_to_loop = 6 - num_of_compulsory_subjects
 	loop_count = 0
 	for optional_subject_score in sorted_optional_subjects:
 		if times_to_loop > loop_count:
 			points += optional_subject_score
+			points_added.append(optional_subject_score)
 			#frappe.msgprint(str(points))
 			loop_count += 1
 
 	points_card_name.points_in_best_6 = float(points)
+
+	#frappe.msgprint(f'Comp: {compulsory_subject_names} - Opt: {optional_subject_names} - Sco: {points_added} - Comp Points: {compulsory_subject_points}')
+
 	points_card_name.save()
 	validate_attendance(points_card_name.name)
 	calculate_position_in_class(points_card_name.name)
-	add_auto_comments(points_card_name.name)
+	#add_auto_comments(points_card_name.name)
 
 def validate_attendance(attendance_card_name):
 	attendance_card = frappe.get_doc("Report Card", attendance_card_name)
@@ -231,7 +258,8 @@ def validate_attendance(attendance_card_name):
 	sorted_student_attendance_in_class = sorted(all_students_attendance_in_class, reverse=True)
 	#frappe.throw(str(sorted_student_attendance_in_class[0]))
 	attendance_card.attendance = frappe.db.count("Student Attendance", filters={'student': attendance_card.student, "status": "Present", "student_group": class_name, 'academic_term': academic_term, 'academic_year': academic_year})
-	attendance_card.out_of_attendance = sorted_student_attendance_in_class[0]
+	if len(sorted_student_attendance_in_class) > 0:
+		attendance_card.out_of_attendance = sorted_student_attendance_in_class[0]
 	attendance_card.save()
 
 	validate_report_card_unpaid_fees(attendance_card.name)
@@ -378,7 +406,7 @@ def get_scores_for_previous_term(student, grade, class_name, subject,current_rep
 	#2021-22
 	#0123456
 	previous_academic_year_number2 = int(current_academic_year[5:])-1
-	previous_academic_year =current_academic_year[0:2]+str(previous_academic_year_number1) + "-" + previous_academic_year_number2 
+	previous_academic_year =current_academic_year[0:2]+str(previous_academic_year_number1) + "-" + str(previous_academic_year_number2) 
 	 #str(current_academic_year[0:3]) + str(previous_academic_year_number1)+ "-" + str(current_academic_year[5]) + str(previous_academic_year_number2) 
 	#frappe.msgprint(str(previous_academic_term))
 	previous_academic_term = str(current_academic_year) + " (Term " + str(int(current_term_number)-1) + ")"

@@ -3,8 +3,10 @@
 # For license information, please see license.txt
 
 from __future__ import unicode_literals
+from warnings import filters
 import frappe
 import json
+import datetime
 from frappe import _
 from frappe.model.mapper import get_mapped_doc
 from frappe.utils import flt, cstr, getdate
@@ -43,7 +45,45 @@ def assign_next_class(class_doc,student):
 
 @frappe.whitelist()
 def migrate_forward():
+	# region Chipos Solution
 	
+	c_room = "Grade 10 Science"
+	c_grade = "Grade 10"
+
+	#Get all students and change the Grade and Class
+	class_doc = frappe.get_doc("Student Group", c_room)
+	for student in class_doc.students:
+		if class_doc.next_class != None and class_doc.next_class != "":
+			#frappe.msgprint(f'{student.student}')
+			student_doc = frappe.get_doc("Student", student.student)
+			student_doc.grade = class_doc.next_grade
+			student_doc.class_name = class_doc.next_class
+			student_doc.save()
+
+			#Get student program enrollment doctype and change the academic term and year to current, and student batch
+			program_enrollment_doc_name = frappe.db.exists("Program Enrollment", {"student": student.student})
+			program_enrollment_doc = frappe.get_doc("Program Enrollment", program_enrollment_doc_name)
+			#frappe.msgprint(f'{program_enrollment_doc.name}')
+
+			##
+			#program_enrollment_doc.student_batch_name = f'{class_doc.next_grade} Section'
+			#program_enrollment_doc.db_set('student_batch_name', f'{class_doc.next_grade} Section')
+			#st = frappe.db.sql("""SELECT * FROM `tabProgram Enrollment` WHERE student=%s""", (student.student), as_dict=1)
+			#frappe.errprint(st)
+			frappe.db.sql("""UPDATE `tabProgram Enrollment` SET student_batch_name=%s, program=%s WHERE student=%s """, (f'{class_doc.next_grade} Section', class_doc.next_grade, student.student))
+			#frappe.errprint("""UPDATE `tabProgram Enrollment` SET student_batch_name=%s, program=%s WHERE student=%s """, (f'{class_doc.next_grade} Section', class_doc.next_grade, student))""")
+
+			##
+
+			#frappe.errprint(f'Next Section: {class_doc.next_grade} Section')
+			#program_enrollment_doc.program = class_doc.next_grade
+			#program_enrollment_doc.save()
+			#program_enrollment_doc.submit()
+
+	return
+
+	#endregion
+
 	groupList = frappe.get_all("Student Group")
 	enrollmentList = frappe.get_all('Program Enrollment')
 	GradeList = []
@@ -117,7 +157,40 @@ def migrate_forward():
 				frappe.msgprint(f'Program {class_doc.program}')
 				#class_doc.previous_students = class_doc.students
 				class_doc.previous_students.clear()
-				for student in class_doc.current_students:
+				for student in class_doc.students:
+					if class_doc.next_class != None and class_doc.next_class != "":
+						frappe.msgprint(f'{student.student}')
+						student_doc = frappe.get_doc("Student", student.student)
+						student_doc.grade = class_doc.next_grade
+						student_doc.class_name = class_doc.next_class
+						student_doc.save()
+
+						#Get student program enrollment doctype and change the academic term and year to current, and student batch
+						program_enrollment_doc_name = frappe.db.exists("Program Enrollment", {"student": student.student})
+						program_enrollment_doc = frappe.get_doc("Program Enrollment", program_enrollment_doc_name)
+						program_enrollment_doc.student_batch_name = f'{class_doc.next_grade} Section'
+						program_enrollment_doc.save()
+						previous_class_enrollment = frappe.get_doc("Student Group",str(class_doc.next_class))
+						class_doc.append("previous_students",{
+						"student": student.student,
+						"student_name": student.student_name,
+						"active": student.active
+						})
+						
+						previous_class_enrollment = frappe.get_doc("Student Group",str(class_doc.next_class))
+						
+						previous_class_enrollment.append("current_students",{
+						"student": student.student,
+						"student_name": student.student_name,
+						"active": student.active
+						}
+						)
+						#program_class_enrollment.student_batch_name = f'{class_doc.next_grade} Section'
+						#frappe.set_value("Program Enrollmenrt",student_enrollment,'student_batch_name',next_class.batch)
+						previous_class_enrollment.save()
+
+				#region oldcode
+					"""
 					class_doc.append("previous_students",{
 						"student": student.student,
 						"student_name": student.student_name,
@@ -131,12 +204,12 @@ def migrate_forward():
 								student_enrollment = stu
 								break
 						if student_enrollment:
-							frappe.msgprint("Enrollment: " + str(student_enrollment))
+							# frappe.msgprint("Enrollment: " + str(student_enrollment))
 							next_class = frappe.get_doc("Student Group",str(class_doc.next_class))
-							frappe.msgprint("Next Class: " + str(next_class.batch))
-							frappe.msgprint(f'Previous enrollment: {student_enrollment.student_batch_name}')
+							# frappe.msgprint("Next Class: " + str(next_class.batch))
+							# frappe.msgprint(f'Previous enrollment: {student_enrollment.student_batch_name}')
 							student_enrollment.student_batch_name=next_class.batch
-							frappe.msgprint(f'New enrollment: {student_enrollment.student_batch_name}')
+							# frappe.msgprint(f'New enrollment: {student_enrollment.student_batch_name}')
 							student_enrollment.save()
 							student.save()
 							frappe.db.commit()
@@ -155,26 +228,49 @@ def migrate_forward():
 							"active": student.active
 							}
 							)
+							program_class_enrollment.student_batch_name = f'{class_doc.next_grade} Section'
 							#frappe.set_value("Program Enrollmenrt",student_enrollment,'student_batch_name',next_class.batch)
 
 							previous_class_enrollment.save()
-					
-				class_doc.current_students.clear()
+					"""
+					#endregion
+				
+				# class_doc.current_students.clear()
 				class_doc.save()
 				frappe.msgprint(f'{len(class_doc.previous_students)}')
 
-
-				class_doc.save()
 				"""
 				else:
 					if len(class_doc.previous_students) > 0:
 						for student in class_doc.previous_students:
 							class"""
 	
+	#?region ExtendYears
+	highest_year = getHighestYear()
+	diff = int(str(highest_year.academic_year_name)[0:4]) - int(str(new_academic_year.academic_year_name)[0:4]) 
+	if(diff <= 3):
+		extendAcadmicYearDocType();
+	#?endregion
 
 @frappe.whitelist()
 def migrate_reverse():
-	
+	"""
+	c_room = "Grade 11 Science"
+	c_grade = "Grade 11"
+
+	#Get all students and change the Grade and Class
+	class_doc = frappe.get_doc("Student Group", c_room)
+	for student in class_doc.students:
+		if class_doc.previous_class != None and class_doc.previous_class != "":
+			frappe.msgprint(f'{student.student}')
+			student_doc = frappe.get_doc("Student", student.student)
+			student_doc.grade = class_doc.previous_grade
+			student_doc.class_name = class_doc.previous_class
+			student_doc.save()
+
+	#students = frappe.get_all("Student", filters={})
+	return
+"""
 	groupList = frappe.get_all("Student Group")
 	enrollmentList = frappe.get_all('Program Enrollment')
 	GradeList = []
@@ -249,6 +345,13 @@ def migrate_reverse():
 				#class_doc.previous_students = class_doc.students
 				class_doc.current_students.clear()
 				for student in class_doc.previous_students:
+					if class_doc.previous_class != None and class_doc.previous_class != "":
+						frappe.msgprint(f'{student.student}')
+						student_doc = frappe.get_doc("Student", student.student)
+						student_doc.grade = class_doc.previous_grade
+						student_doc.class_name = class_doc.previous_class
+						student_doc.save()
+						"""
 					class_doc.append("current_students",{
 						"student": student.student,
 						"student_name": student.student_name,
@@ -287,11 +390,10 @@ def migrate_reverse():
 							previous_class_enrollment.save()
 					
 				class_doc.previous_students.clear()
+							"""
 				class_doc.save()
 				frappe.msgprint(f'{len(class_doc.previous_students)}')
 
-
-				class_doc.save()
 	
 
 @frappe.whitelist()
@@ -693,3 +795,135 @@ def get_current_enrollment(student, academic_year=None):
 		return program_enrollment_list[0]
 	else:
 		return None
+
+@frappe.whitelist()
+def extendAcadmicYearDocType():
+	'''' Grading Scale-Percentage Grading
+		3. Academic year and Term Format has to be strict
+		4. Assesment Criteria - End of Term and Midterm
+		5. Autocomments inculding the data inside the doctype'''
+
+	current_year = datetime.datetime.now().year
+	
+	current_year_pre = int(str(current_year)[0:2])
+
+	current_year_sur = int(str(current_year)[2:])
+
+	end_year = current_year_sur + 51
+	
+	for x in range(current_year_sur,end_year):
+		used_current_year = current_year_pre;
+		used_x = x
+		if x >= 100:
+			used_current_year += 1
+			used_x = x -100;
+
+		new_academic_year = frappe.new_doc("Academic Year")
+		new_academic_year.academic_year_name = str(used_current_year)+str(used_x)+'-'+str(used_x+1 if used_x + 1 <100 else x-100)
+		new_academic_year.year_start_date = f'{str(new_academic_year.academic_year_name)[0:4]}-01-01'
+		new_academic_year.year_end_date = f'{str(new_academic_year.academic_year_name)[0:4]}-12-31'
+	
+		try:
+			exists =  frappe.db.exists("Academic Year",new_academic_year.academic_year_name)
+			if exists:
+			# name = new_academic_year.academic_year_name
+			# new_academic_year = frappe.get_doc('Academic Year',name)
+				new_acadamic_year = frappe.get_doc("Academic Year",new_academic_year.academic_year_name)
+				new_academic_year.year_start_date = f'{str(new_academic_year.academic_year_name)[0:4]}-01-01'
+				new_academic_year.year_end_date = f'{str(new_academic_year.academic_year_name)[0:4]}-12-31'
+				new_academic_year.save()
+				frappe.msgprint("exists")
+				continue
+			else:
+				new_academic_year.insert()
+		except:
+			continue
+			#try:
+			# except:
+			# 	frappe.msgprint("---")
+
+
+	 	#new_academic_year.save()
+		for i in range(1,4):
+			termDoc = frappe.new_doc('Academic Term')
+			termDoc.academic_year = new_academic_year.academic_year_name
+			termDoc.term_name = f'Term {i}'
+			termDoc.title = f'{termDoc.academic_year} ({termDoc.term_name})'
+			term_exists = frappe.db.exists('Academic Term',termDoc.title)
+			if term_exists:
+				continue
+			else:
+				termDoc.insert()
+
+def getHighestYear():
+	year_list = frappe.get_all("Academic Year")
+	# frappe.msgprint(str(year_list))
+	# return
+	largest_year = 0;
+	current_index = 0
+	for x in year_list:
+		temp = x['name'][2:4]
+		if str(temp).isnumeric():
+			if int(temp) > largest_year:
+				largest_year = int(temp)
+				current_index = year_list.index(x)
+	year = frappe.get_doc("Academic Year",year_list[current_index]['name'])
+	return year
+
+
+@frappe.whitelist()
+def insertAcadmicYearDocType():
+
+	'''' Grading Scale-Percentage Grading
+		3. Academic year and Term Format has to be strict
+		4. Assesment Criteria - End of Term and Midterm
+		5. Autocomments inculding the data inside the doctype'''
+
+	current_year = datetime.datetime.now().year
+	current_year_pre = int(str(current_year)[0:2])
+	current_year_sur = int(str(current_year)[2:])
+
+	for x in range(current_year_sur,51):
+		used_current_year = current_year_pre;
+		used_x = x
+		if x >= 100:
+			used_current_year += 1
+			used_x = x -100;
+
+		new_academic_year = frappe.new_doc("Academic Year")
+		new_academic_year.academic_year_name = str(used_current_year)+str(used_x)+'-'+str(used_x+1 if used_x + 1 <100 else x-100)
+		new_academic_year.year_start_date = f'{str(new_academic_year.academic_year_name)[0:4]}-01-01'
+		new_academic_year.year_end_date = f'{str(new_academic_year.academic_year_name)[0:4]}-12-31'
+	
+		try:
+			exists =  frappe.db.exists("Academic Year",new_academic_year.academic_year_name)
+			if exists:
+			# name = new_academic_year.academic_year_name
+			# new_academic_year = frappe.get_doc('Academic Year',name)
+				new_acadamic_year = frappe.get_doc("Academic Year",new_academic_year.academic_year_name)
+				new_academic_year.year_start_date = f'{str(new_academic_year.academic_year_name)[0:4]}-01-01'
+				new_academic_year.year_end_date = f'{str(new_academic_year.academic_year_name)[0:4]}-12-31'
+				new_academic_year.save()
+				frappe.msgprint("exists")
+				continue
+			else:
+				new_academic_year.insert()
+		except:
+			continue
+			#try:
+			# except:
+			# 	frappe.msgprint("---")
+
+
+	 	#new_academic_year.save()
+		for i in range(1,4):
+			termDoc = frappe.new_doc('Academic Term')
+			termDoc.academic_year = new_academic_year.academic_year_name
+			termDoc.term_name = f'Term {i}'
+			termDoc.title = f'{termDoc.academic_year} ({termDoc.term_name})'
+			term_exists = frappe.db.exists('Academic Term',termDoc.title)
+			if term_exists:
+				continue
+			else:
+				termDoc.insert()
+

@@ -10,7 +10,9 @@
  "field_order": [
   "class_teacher",
   "previous_class",
+  "previous_grade",
   "next_class",
+  "next_grade",
   "academic_year",
   "student_group_name",
   "max_strength",
@@ -164,10 +166,26 @@
    "fieldtype": "Link",
    "label": "Class Teacher",
    "options": "User"
+  },
+  {
+   "fetch_from": "next_class.program",
+   "fieldname": "next_grade",
+   "fieldtype": "Link",
+   "label": "Next Grade",
+   "options": "Program",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "previous_class.program",
+   "fieldname": "previous_grade",
+   "fieldtype": "Link",
+   "label": "Previous Grade",
+   "options": "Program",
+   "read_only": 1
   }
  ],
  "links": [],
- "modified": "2022-02-19 02:42:09.591209",
+ "modified": "2022-02-19 14:10:25.939435",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Student Group",

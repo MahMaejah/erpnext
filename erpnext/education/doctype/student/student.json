@@ -22,7 +22,7 @@
   "naming_series",
   "joining_date",
   "grade",
-  "class",
+  "class_name",
   "examination_number",
   "orphan",
   "type_of_orphan",
@@ -333,27 +333,27 @@
    "label": "Examination Number"
   },
   {
-   "depends_on": "grade",
-   "fieldname": "class",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "in_standard_filter": 1,
-   "label": "Class",
-   "options": "Student Group",
-   "reqd": 1
-  },
-  {
    "fieldname": "section_break_38",
    "fieldtype": "Section Break"
   },
   {
    "fieldname": "column_break_41",
    "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "grade",
+   "fieldname": "class_name",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Class",
+   "options": "Student Group",
+   "reqd": 1
   }
  ],
  "image_field": "image",
  "links": [],
- "modified": "2022-02-19 12:23:12.487615",
+ "modified": "2022-02-19 13:08:52.415966",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Student",

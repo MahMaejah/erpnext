@@ -2,7 +2,7 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('Assessment Result', {
-	refresh: function(frm) {
+	refresh: function(frm) { 
 		// ****** NEWLY ADDED STARTS HERE ****** //
 
 		var c = frm.doc.student + "-" + frm.doc.program + "-" + frm.doc.student_group + "-" + frm.doc.academic_year + "-" + frm.doc.academic_term;
